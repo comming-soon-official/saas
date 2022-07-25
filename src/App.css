@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  font-family: "Open Sans", sans-serif;
+  }
+
+label {
+  font-size: .7rem;
+}
+
+input.form-control, input.form-control:focus {
+  background: #F0F0FF;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: .6rem;
+}
+.myLinks{
+  margin-top: 10px;
+}
+.form-control{
+  max-width: 350px;
+}
+.myButton{
+  margin-top: 15px;
+  background-color: #a03c64 !important;
+  color: white !important;
+  border: black 1px solid !important;
+}
+.myButton:hover {
+  background: white !important;
+  color: #a03c64 !important;
+  border: black 1px solid !important;
+}
+.myButton:focus {
+  background-color: #a03c64 !important;
+  color: black !important;
+}
+.authlables{
+  text-transform: uppercase;
+}
+/* .form-control:focus::placeholder {
+  color: #000;
+} */
+.form-control{
+  font-size: small !important;
+}
