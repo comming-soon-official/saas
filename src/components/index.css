@@ -1,0 +1,19 @@
+.ant-steps-icon {
+  margin-left: 10px;
+  font-size: 100%;
+  border: none;
+}
+
+.steps-content {
+  margin: 30px;
+  padding: 10px;
+  width: 400px;
+  height: 250px;
+}
+
+.ant-steps-finish-icon {
+  margin-left: -3px;
+}
+.anticon {
+  font-size: 100%;
+}

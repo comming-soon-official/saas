@@ -1,0 +1,34 @@
+{
+  "pt-BR": {
+    "title": "Aiensured",
+    "image": {
+      "explainability": {
+        "white": "White Box Explanations",
+        "black": {
+          "title": "Black Box Explanations",
+          "description": "This model-agnostic technique explains the model predictions for a given input by repeatedly testing and analyzing the model outcomes over a series of slightly varied versions of the input."
+        }
+      },
+      "deepXplore": "Whitebox Testing (for DNN)",
+      "deepXploreCorner": "Corner cases discovered by white box testing",
+      "attack": {
+        "white": "White box attacks",
+        "black": "Black box attacks"
+      }
+    },
+    "structured": {
+      "gaminet": "Explainable Neural Network",
+      "randomforest": "Feature Importance",
+      "decisiontree": "Surrogate Modeling",
+      "shapglobal": "Feature Contributions",
+      "pdp": "Feature Dependency Plots",
+      "shaplocal": "Feature Contributions",
+      "ice": "Feature Dependency Plots",
+      "loco": "Feature Importance",
+      "lime": "Black box Explanations",
+      "fairml": "Fairness Evaluation",
+      "art": "Corner cases by Adversarial testing",
+      "biaspositive": "Bias Positive Unlabelled"
+    }
+  }
+}
