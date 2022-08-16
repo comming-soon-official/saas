@@ -1,49 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.App {
+  text-align: center;
+}
 
-body {
-  font-family: "Open Sans", sans-serif;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
   }
-
-label {
-  font-size: .7rem;
 }
 
-input.form-control, input.form-control:focus {
-  background: #F0F0FF;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.error {
-  position: absolute;
-  color: red;
-  font-size: .6rem;
+.App-link {
+  color: #61dafb;
 }
-.myLinks{
-  margin-top: 10px;
-}
-.form-control{
-  max-width: 350px;
-}
-.myButton{
-  margin-top: 15px;
-  background-color: #a03c64 !important;
-  color: white !important;
-  border: black 1px solid !important;
-}
-.myButton:hover {
-  background: white !important;
-  color: #a03c64 !important;
-  border: black 1px solid !important;
-}
-.myButton:focus {
-  background-color: #a03c64 !important;
-  color: black !important;
-}
-.authlables{
-  text-transform: uppercase;
-}
-/* .form-control:focus::placeholder {
-  color: #000;
-} */
-.form-control{
-  font-size: small !important;
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "image": true,
+  "structured": true,
+  "text": true,
+  "regression": true,
+  "audio": true,
+  "timeseries": true,
+  "od": true,
+  "segmentation": true,
+  "recommendation": true
+}

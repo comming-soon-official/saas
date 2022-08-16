@@ -1,34 +1,42 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
-import "./App.css";
-import { Signup } from "./components/Auth/Signup/Signup";
-import { Login } from "./components/Auth/Login/Login";
-import Uploads from "./components/FileUploader/Uploads";
-import { Currentuser } from "./services/authServices";
-function App() {
+import React, { useEffect } from "react";
+import "./App.scss";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+// import Config from './views/Config';
+
+// import { TextPipeline, ImagePipeline } from "./views/Report";
+
+import { Login, Signup } from "./views/Auth/Authentication";
+import Uploads from "./views/FileUploader/Uploads";
+
+import i18n from "./i18n";
+// var license = require('./license.json');
+const App = (props) => {
+  /*useEffect(() => {
+    if(currentUser){
+    document.documentElement.style.setProperty("--text", currentUser.get("Textcolor"))
+    }else{
+      document.documentElement.style.setProperty("--text", "#fff")
+    }
+  }, []);
+  */
+
   return (
-    <Router>
-      <div className="container mt-3">
+    <I18nextProvider i18n={i18n}>
+      <Router>
         <Routes>
-          <Route exact element={<PrivateRoute />}>
-            <Route path="/" element={<Uploads />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* * {license.structured ? <PrivateRoute exact path="/structured">
+              <Structured />
+            </PrivateRoute> : null} */}
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/" element={<Uploads />} />
+          {/* <Route exact path="/text" element={<TextPipeline />} /> */}
+          {/* <Route exact path="/image" element={<ImagePipeline />} /> */}
+          {/* <Route exact path="/config" element={<Config />} /> */}
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </I18nextProvider>
   );
-}
-
+};
 export default App;
-
-function PrivateRoute() {
-  return <>{Currentuser ? <Outlet /> : <Navigate to="/login" />};</>;
-}
