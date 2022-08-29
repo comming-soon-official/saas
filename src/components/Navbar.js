@@ -5,7 +5,7 @@ import { Col, Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { auth } from "../services";
 import { Images } from "../themes";
-
+import "./index.css";
 var CurrentUser = auth.getCurrentUser();
 
 const MainNavbar = ({ logout }) => {
@@ -42,6 +42,13 @@ const MainNavbar = ({ logout }) => {
                 {/* <Dropdown.Divider /> */}
                 {CurrentUser ? (
                   <>
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = "/report";
+                      }}
+                    >
+                      Report
+                    </Dropdown.Item>
                     <Dropdown.Item>Profile Setting</Dropdown.Item>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                   </>

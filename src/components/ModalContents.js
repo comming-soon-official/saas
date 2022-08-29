@@ -1,28 +1,28 @@
 import React from "react";
-import { Formik, Field } from "formik";
-import { Form } from "react-bootstrap";
-import * as Yup from "yup";
-import { TextField } from "../views/Auth/TextField";
+// import { Form } from "react-bootstrap";
+import { Select, Form, Input } from "antd";
 import "./index.css";
+const { Option } = Select;
+
 export const Modalcontent1 = (props) => {
   const { catogery, setCatogery } = props;
   return (
     <>
       <h3>Select Category</h3>
       <br />
-      <select
+      <Select
         onChange={(event) => {
           setCatogery(event.target.value);
         }}
+        placeholder="Select Project Catogery"
         className="form-select"
         aria-label="Default select example"
       >
-        <option defaultValue>Select Project Catogery</option>
-        <option value="education">Education</option>
-        <option value="buinsess">Buisness</option>
-        <option value="persnol">Persnol</option>
-        <option value="organization">Organization</option>
-      </select>
+        <Option value="education">Education</Option>
+        <Option value="buinsess">Buisness</Option>
+        <Option value="persnol">Persnol</Option>
+        <Option value="organization">Organization</Option>
+      </Select>
     </>
   );
 };
@@ -68,10 +68,45 @@ export const Modalcontent2 = (props) => {
       <div>
         <h3>Information Detials</h3>
         {/* <h3>Detials</h3> */}
-        <Form>
-          <Form.Group
+        <Form layout="vertical">
+          <Form.Item
+            className="username"
+            label="Full Name"
+            colon={false}
+            rules={[
+              {
+                required: true,
+                message: "Please your full name!",
+              },
+            ]}
+          >
+            <Input
+              value={fullName}
+              onChange={(event) => setFullName(event.target.value)}
+              placeholder="Eg:- Himal.B"
+            />
+          </Form.Item>
+          <Form.Item
+            className="username"
+            label="Email"
+            colon={false}
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Eg:- himal.b@testaing.com"
+            />
+          </Form.Item>
+
+          {/* <Form.Group
             style={{ marginBottom: 10 }}
-            NameName="mb-3"
+            className="mb-3"
             controlId="exampleForm.ControlInput1"
           >
             <Form.Label>Full Name</Form.Label>
@@ -82,7 +117,7 @@ export const Modalcontent2 = (props) => {
               placeholder="Eg:- Himal.B"
             />
           </Form.Group>
-          <Form.Group cl assName="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               value={email}
@@ -90,7 +125,7 @@ export const Modalcontent2 = (props) => {
               type="email"
               placeholder="name@example.com"
             />
-          </Form.Group>
+          </Form.Group> */}
         </Form>
         {/* <Form>
               <TextField
@@ -134,8 +169,27 @@ export const Modalcontent3 = (props) => {
       <div>
         <h3>Name Your Project</h3>
         <br />
-        <Form>
-          <Form.Group NameName="mb-3" controlId="exampleForm.ControlInput1">
+        <Form layout="vertical">
+          <Form.Item
+            className="username"
+            label="Topic"
+            colon={false}
+            rules={[
+              {
+                required: true,
+                message: "Please your full name!",
+              },
+            ]}
+          >
+            <Input
+              value={topic}
+              onChange={(event) => setTopic(event.target.value)}
+              placeholder="Eg:- TextEvaluation"
+            />
+          </Form.Item>
+        </Form>
+        {/* <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Topic</Form.Label>
             <Form.Control
               value={topic}
@@ -144,7 +198,7 @@ export const Modalcontent3 = (props) => {
               placeholder="Eg:- Himal.B"
             />
           </Form.Group>
-        </Form>
+        </Form> */}
       </div>
     </>
   );

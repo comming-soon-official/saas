@@ -17,3 +17,32 @@
 .anticon {
   font-size: 100%;
 }
+.form-select {
+  width: 350px;
+}
+
+@media only screen and (max-width: 600px) {
+  .form-select {
+    width: 250px;
+  }
+  .ant-input {
+    width: 250px;
+  }
+  .dropdown-menu[data-bs-popper] {
+    position: absolute !important;
+    left: unset !important;
+    right: 10% !important;
+  }
+}
+
+.ant-form-item-label
+  > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  content: none;
+}
+.ant-input {
+  border-radius: 10px;
+  padding: 4px 11px;
+  font-weight: 500;
+  height: 40px;
+  color: #777777;
+}

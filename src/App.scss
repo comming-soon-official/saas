@@ -51,39 +51,39 @@ body {
   border: var(--border) solid var(--content);
 }
 
-.card-header-tabs {
-  border: var(--border) solid var(--content);
-}
+// .card-header-tabs {
+//   border: var(--border) solid var(--content);
+// }
 
-.card-header {
-  background-color: var(--content);
-  border: var(--border) solid var(--content);
-  color: var(--text);
-  padding-left: 2px;
-  padding-right: 2px;
-  border: 0px;
-}
+// .card-header {
+//   background-color: var(--content);
+//   border: var(--border) solid var(--content);
+//   color: var(--text);
+//   padding-left: 2px;
+//   padding-right: 2px;
+//   border: 0px;
+// }
 
-.card-body {
-  background-color: var(--content);
-  border: 1px solid var(--content);
-}
+// .card-body {
+//   background-color: var(--content);
+//   border: 1px solid var(--content);
+// }
 
-.custom-control-input:checked ~ .custom-control-label::before {
-  background: var(--content);
-  border-color: var(--content);
-}
+// .custom-control-input:checked ~ .custom-control-label::before {
+//   background: var(--content);
+//   border-color: var(--content);
+// }
 
-.break {
-  margin: 0px;
-  margin-left: 50px;
-  margin-right: 50px;
-  border-top: 2px;
-}
+// .break {
+//   margin: 0px;
+//   margin-left: 50px;
+//   margin-right: 50px;
+//   border-top: 2px;
+// }
 
-.card {
-  border: 0px solid var(--content);
-}
+// .card {
+//   border: 0px solid var(--content);
+// }
 
 select#formGridState {
   color: var(--text);

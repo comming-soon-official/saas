@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap");
 
-:root {
+/* :root {
   --body-bg: #f5f8ff;
   --box-bg: #fff;
   --input-bg: #f5f8ff;
@@ -22,6 +22,8 @@
   display: flex;
   justify-content: center;
   padding-top: 100px;
+  width: 600px;
+  height: 600px;
 }
 
 .box {
@@ -134,14 +136,26 @@
 
 .drop-file-preview__item:hover .drop-file-preview__item__del {
   opacity: 1;
-}
+} */
 span {
   margin-right: 10px;
   font-size: medium;
 }
 .ant-progress-line {
   display: flex !important;
-  justify-content: center !important;
+  /* justify-content: center !important; */
   align-items: center !important;
-  margin-top: 10px !important;
+  margin-top: -13px !important;
+  margin-left: 10px;
+  width: 90%;
+  margin-right: -30px;
+}
+
+.draggerbox {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
 }

@@ -10,6 +10,7 @@ import { Login, Signup } from "./views/Auth/Authentication";
 import Uploads from "./views/FileUploader/Uploads";
 
 import i18n from "./i18n";
+import Report from "./views/Pages/Report";
 // var license = require('./license.json');
 const App = (props) => {
   /*useEffect(() => {
@@ -31,6 +32,8 @@ const App = (props) => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/" element={<Uploads />} />
+          <Route exact path="/report" element={<Report />} />
+
           {/* <Route exact path="/text" element={<TextPipeline />} /> */}
           {/* <Route exact path="/image" element={<ImagePipeline />} /> */}
           {/* <Route exact path="/config" element={<Config />} /> */}

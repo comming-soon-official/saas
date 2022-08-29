@@ -5,6 +5,7 @@ import { Steps, Modal, notification } from "antd";
 import { Button } from "react-bootstrap";
 import { Modalcontent1, Modalcontent2, Modalcontent3 } from "./ModalContents";
 import Parse from "../services/parseService";
+import { useNavigate } from "react-router-dom";
 
 const { Step } = Steps;
 
@@ -15,6 +16,8 @@ const ComponentModal = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("");
+  let navigate = useNavigate();
+
   // console.log(fullName);
   // console.log(email);
   // console.log(topic);
@@ -62,9 +65,21 @@ const ComponentModal = () => {
     setCurrent(current - 1);
   };
 
+  const btn = (
+    <Button
+      style={{ margin: 0 }}
+      size="sm"
+      className="myButton"
+      onClick={() => (window.location = "/signup")}
+    >
+      Signup
+    </Button>
+  );
   const afterDone = () => {
     const user = new Parse.User();
     user.set("username", email);
+    user.set("email", email);
+    user.set("password", "something");
     user.set("fullname", fullName);
     user.set("topic", topic);
     user.set("catogery", catogery);
@@ -75,8 +90,9 @@ const ComponentModal = () => {
         notification["success"]({
           message: "Email Sent Sucessfully",
           description:
-            "The Project Viewable Link Has been Sent to Your Inbox, Kindly Ckeck.",
+            "Project is added to queue signup to track your application,",
           duration: 10,
+          btn,
         });
       })
       .catch((error) => {
