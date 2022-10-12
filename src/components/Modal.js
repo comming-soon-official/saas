@@ -12,7 +12,6 @@ const { Step } = Steps;
 const ComponentModal = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [current, setCurrent] = useState(0);
-  const [catogery, setCatogery] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("");
@@ -22,10 +21,10 @@ const ComponentModal = () => {
   // console.log(email);
   // console.log(topic);
   const steps = [
-    {
-      title: "Catogery",
-      content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
-    },
+    // {
+    //   title: "Catogery",
+    //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
+    // },
     {
       title: "Detials",
       content: (
@@ -76,15 +75,12 @@ const ComponentModal = () => {
     </Button>
   );
   const afterDone = () => {
-    const user = new Parse.User();
-    user.set("username", email);
+    const user = Parse.User.current();
     user.set("email", email);
-    user.set("password", "something");
     user.set("fullname", fullName);
     user.set("topic", topic);
-    user.set("catogery", catogery);
     user
-      .signUp()
+      .save()
       .then(() => {
         setIsModalVisible(false);
         notification["success"]({
@@ -117,8 +113,8 @@ const ComponentModal = () => {
   return (
     <>
       <Button
-        style={{ marginLeft: "50px", width: "300px" }}
-        className="myButton"
+        style={{ width: "300px" }}
+        className="myButton centre"
         onClick={showModal}
       >
         Proceed

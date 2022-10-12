@@ -4,28 +4,29 @@ import { Select, Form, Input } from "antd";
 import "./index.css";
 const { Option } = Select;
 
-export const Modalcontent1 = (props) => {
-  const { catogery, setCatogery } = props;
-  return (
-    <>
-      <h3>Select Category</h3>
-      <br />
-      <Select
-        onChange={(event) => {
-          setCatogery(event.target.value);
-        }}
-        placeholder="Select Project Catogery"
-        className="form-select"
-        aria-label="Default select example"
-      >
-        <Option value="education">Education</Option>
-        <Option value="buinsess">Buisness</Option>
-        <Option value="persnol">Persnol</Option>
-        <Option value="organization">Organization</Option>
-      </Select>
-    </>
-  );
-};
+// export const Modalcontent1 = (props) => {
+//   const { catogery, setCatogery } = props;
+//   return (
+//     <>
+//       <h3>Select Category</h3>
+//       <br />
+//       <Select
+//         onChange={(event) => {
+//           setCatogery(event.target.value);
+//         }}
+//         placeholder="Select Project Catogery"
+//         className="form-select"
+//         aria-label="Default select example"
+//       >
+//         <Option value="education">Education</Option>
+//         <Option value="buinsess">Buisness</Option>
+//         <Option value="persnol">Persnol</Option>
+//         <Option value="organization">Organization</Option>
+//       </Select>
+//     </>
+//   );
+// };
+
 export const Modalcontent2 = (props) => {
   const { fullName, setFullName, email, setEmail } = props;
   // const validate = Yup.object({

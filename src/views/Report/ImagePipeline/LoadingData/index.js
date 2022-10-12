@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
+import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import Gallery from "react-grid-gallery";
 
@@ -58,7 +59,7 @@ const Index = (props) => {
             {data[keys[2]].image_shape[1]}
           </p>
           <p>Test Size: {data[keys[2]].test_size}</p>
-          <Doughnut data={chartData} />
+          <Doughnut className="DonutChart" data={chartData} />
         </Col>
       </Row>
       <br />

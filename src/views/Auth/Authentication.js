@@ -44,10 +44,12 @@ export const Signup = () => {
           }}
           validationSchema={validate}
           onSubmit={(values) => {
-            const user = new Parse.User();
+            const user = Parse.User.current()
+              ? Parse.User.current()
+              : new Parse.User();
             user.set("fullname", values.fullName);
-            user.set("username", values.email);
-            user.set("password", values.password);
+            user.setUsername(values.email);
+            user.setPassword(values.password);
             user.set("email", values.email);
             user
               .signUp()

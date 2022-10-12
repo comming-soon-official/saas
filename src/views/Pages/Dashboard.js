@@ -9,13 +9,14 @@ import {
   Table,
 } from "react-bootstrap";
 import "./style.css";
+import { MainNavbar } from "../../components";
 
-const Report = () => {
+const Dashboard = () => {
   const [projectdata, setProjectData] = useState([
     {
       key: 1,
       name: "jacob",
-      product: "photoshop",
+      product: "Object Detection",
       createdtime: "28 aug 22",
       status: "error",
     },
@@ -29,14 +30,14 @@ const Report = () => {
     {
       key: 3,
       name: "ookie",
-      product: "something",
+      product: "Image",
       createdtime: "02 sep 22",
       status: "pending",
     },
     {
       key: 4,
       name: "heydude",
-      product: "emnblem",
+      product: "Video",
       createdtime: "20 sep 22",
       status: "completed",
     },
@@ -103,64 +104,67 @@ const Report = () => {
     });
   };
   return (
-    <div style={{ margin: 30 }}>
-      <div className="page-header">
-        <h3 className="page-title"> Report Tables </h3>
+    <>
+      <MainNavbar />
+      <div style={{ margin: 40 }}>
+        <div className="page-header">
+          <h3 className="page-title"> Dashboard </h3>
+        </div>
+        <Row>
+          <Col lg={6} className="grid-margin stretch-card">
+            <Card>
+              <Card.Body>
+                <Card.Title>Project Tables</Card.Title>
+                <Card.Text>
+                  <code>List of projects</code>
+                </Card.Text>
+                <div className="table-responsive">
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Project Name</th>
+                        <th>Execution Date</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>{projectTable()}</tbody>
+                  </table>
+                </div>
+              </Card.Body>
+            </Card>
+            <br />
+          </Col>
+          <Col lg={6} className="grid-margin stretch-card">
+            <Card>
+              <Card.Body>
+                <Card.Title>Information Tables</Card.Title>
+                <Card.Text>
+                  <code>Project Information</code>
+                </Card.Text>
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Stages</th>
+                        <th>Ececuted Time</th>
+                        <th>Run Time</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>{informationTable()}</tbody>
+                  </table>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </div>
-      <Row>
-        <Col lg={6} className="grid-margin stretch-card">
-          <Card>
-            <Card.Body>
-              <Card.Title>Project Tables</Card.Title>
-              <Card.Text>
-                <code>List of projects</code>
-              </Card.Text>
-              <div className="table-responsive">
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Project Name</th>
-                      <th>Execution Date</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>{projectTable()}</tbody>
-                </table>
-              </div>
-            </Card.Body>
-          </Card>
-          <br />
-        </Col>
-        <Col lg={6} className="grid-margin stretch-card">
-          <Card>
-            <Card.Body>
-              <Card.Title>Information Tables</Card.Title>
-              <Card.Text>
-                <code>Project Information</code>
-              </Card.Text>
-              <div className="table-responsive">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Stages</th>
-                      <th>Ececuted Time</th>
-                      <th>Run Time</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>{informationTable()}</tbody>
-                </table>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-    // <div className="reportcontainer">
-    //   <div className="basicreport1">
+    </>
+    // <div className="Dashboardcontainer">
+    //   <div className="basicDashboard1">
     //     <Card>
     //       <Card.Header>
-    //         <h3>Report</h3>
+    //         <h3>Dashboard</h3>
     //       </Card.Header>
     //       <Card.Body>
     //         <Table responsive>
@@ -188,4 +192,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default Dashboard;

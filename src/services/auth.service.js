@@ -1,14 +1,17 @@
-import Parse from './parseService';
+import Parse from "./parseService";
 
-export function resetPassword(username){
-    return Parse.User.requestPasswordReset(username);
+export function resetPassword(username) {
+  return Parse.User.requestPasswordReset(username);
 }
 
-export function getCurrentUser(){
+export function getCurrentUser() {
   return Parse.User.current();
 }
+export const ParseAnonymousUser = () => {
+  return Parse.AnonymousUtils.logIn();
+};
 
-export function login(username, password){
+export function login(username, password) {
   return Parse.User.logIn(username, password, { usePost: true });
 }
 
@@ -16,7 +19,7 @@ export function logout() {
   return Parse.User.logOut();
 }
 
-export function createRoles(){
+export function createRoles() {
   //creating Roles and Users
   const adminRoleACL = new Parse.ACL();
   adminRoleACL.setPublicReadAccess(true);
@@ -35,14 +38,14 @@ export function createRoles(){
   superAdminRole.save();
 }
 
-export function signup(username, password){
+export function signup(username, password) {
   const user = new Parse.User();
   user.set("username", username);
   user.set("password", password);
   user.set("email", username);
-  user.set("Themecolor","#a03c64")
-  user.set("BGcolor","#000")
-  user.set("Textcolor","#fff")
+  user.set("Themecolor", "#a03c64");
+  user.set("BGcolor", "#000");
+  user.set("Textcolor", "#fff");
   var query = new Parse.Query(Parse.Role);
   query.equalTo("name", "Administrator");
   query.first().then(function (role) {
@@ -94,7 +97,7 @@ export function signup(username, password){
   });
 }
 
-export function checkIfAdmin(){
+export function checkIfAdmin() {
   var query = new Parse.Query(Parse.Role);
   query.equalTo("name", "Administrator");
   query.first().then(function (role) {
@@ -113,7 +116,7 @@ export function checkIfAdmin(){
   });
 }
 
-export function checkIfSuperAdmin(){
+export function checkIfSuperAdmin() {
   var query = new Parse.Query(Parse.Role);
   query.equalTo("name", "Admin");
   query.first().then(function (role) {
@@ -125,8 +128,8 @@ export function checkIfSuperAdmin(){
         results.forEach(function (user) {
           // setAdminlist([...adminlist, adminlist])
           //if (user.get("email") === CurrentUserMail) {
-            //setSuperAdminuser(user.get("email"));
-            // console.log(Admin);
+          //setSuperAdminuser(user.get("email"));
+          // console.log(Admin);
           //}
           return user.get("email");
         });
@@ -137,6 +140,4 @@ export function checkIfSuperAdmin(){
   });
 }
 
-export function setAdmin(){
-  
-}
+export function setAdmin() {}

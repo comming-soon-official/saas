@@ -1,14 +1,30 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { auth } from "../services";
 import { Images } from "../themes";
 import "./index.css";
 var CurrentUser = auth.getCurrentUser();
-
+var authData = CurrentUser ? CurrentUser.get("authData") : null;
 const MainNavbar = ({ logout }) => {
+  const [anonuser, setAnonuser] = useState(true);
+
+  useEffect(() => {
+    if (authData !== undefined && authData?.anonymous !== undefined) {
+      console.log("Anonuser");
+
+      setAnonuser(true);
+    } else if (authData === undefined) {
+      console.log("Non Anonuser");
+
+      setAnonuser(false);
+    } else {
+      console.log("hello");
+    }
+  }, []);
+
   return (
     <>
       <Container>
@@ -40,19 +56,7 @@ const MainNavbar = ({ logout }) => {
               <Dropdown.Menu>
                 {/* <Dropdown.Item>{username}</Dropdown.Item> */}
                 {/* <Dropdown.Divider /> */}
-                {CurrentUser ? (
-                  <>
-                    <Dropdown.Item
-                      onClick={() => {
-                        window.location = "/report";
-                      }}
-                    >
-                      Report
-                    </Dropdown.Item>
-                    <Dropdown.Item>Profile Setting</Dropdown.Item>
-                    <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
-                  </>
-                ) : (
+                {anonuser ? (
                   <>
                     <Dropdown.Item
                       onClick={() => {
@@ -67,6 +71,29 @@ const MainNavbar = ({ logout }) => {
                       }}
                     >
                       Signup
+                    </Dropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <Dropdown.Item>{CurrentUser.get("email")}</Dropdown.Item>
+                    <Dropdown.Divider />
+
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = "/dashboard";
+                      }}
+                    >
+                      Dashboard
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = "/image";
+                      }}
+                    >
+                      Report
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => auth.logout()}>
+                      Logout
                     </Dropdown.Item>
                   </>
                 )}

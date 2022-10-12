@@ -156,6 +156,36 @@ span {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  /* width: 500px;
+  height: 300px; */
+}
+.filecomponentbox {
+  display: flex;
+}
+.fileuploadbox {
   height: 300px;
+  width: 350px;
+  margin: 20px;
+}
+.ant-upload-list-item-card-actions {
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .filecomponentbox {
+    display: flex;
+    flex-direction: column;
+    /* width: 500px;
+    height: 300px; */
+  }
+  .fileuploadbox {
+    height: 250px;
+    width: 200px;
+    margin: 20px;
+  }
+  .progressposition {
+    margin: 0px !important;
+  }
+}
+.progressposition {
+  margin-left: -115%;
 }
