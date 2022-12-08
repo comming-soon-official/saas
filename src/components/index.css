@@ -37,6 +37,10 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .ModalButton {
+    width: 230px !important;
+    margin-left: 5px !important;
+  }
   .form-select {
     width: 250px;
   }
@@ -51,4 +55,9 @@
   .centre {
     margin-left: -23%;
   }
+}
+.ModalButton {
+  width: 300px;
+  margin-left: 35%;
+  margin-top: 30px;
 }

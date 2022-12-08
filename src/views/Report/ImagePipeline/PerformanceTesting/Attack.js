@@ -4,8 +4,6 @@ import { Row, Col, Table } from "react-bootstrap";
 const Index = (props) => {
   const { title, data } = props;
   const keys = Object.keys(data);
-  console.log(keys);
-
   const table1data = data[keys[1]][0];
   // console.log(table1data)
   if (table1data === null || table1data === undefined) return null;

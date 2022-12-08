@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-
 :root {
+  --content: #a03c64;
   --bgColor: #ffffff;
   --content: #a03c64;
   --text: #000;
@@ -14,12 +13,23 @@
 
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bgColor);
 }
-
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+li,
+span {
+  color: var(--text);
+}
 .main {
   background-color: var(--bgColor);
   box-shadow: 0px 0px 8px var(--grey);
@@ -28,14 +38,6 @@ body {
 .formbackground {
   background-image: url("./images/AuthBG.jpg");
   background-size: cover;
-}
-
-.checkadmin {
-  position: absolute;
-  right: 30px;
-  border: 1px solid var(--content);
-  padding: 5px 10px;
-  border-radius: 15px;
 }
 
 .imagetitle {
@@ -51,39 +53,39 @@ body {
   border: var(--border) solid var(--content);
 }
 
-// .card-header-tabs {
-//   border: var(--border) solid var(--content);
-// }
+.card-header-tabs {
+  border: var(--border) solid var(--content);
+}
 
-// .card-header {
-//   background-color: var(--content);
-//   border: var(--border) solid var(--content);
-//   color: var(--text);
-//   padding-left: 2px;
-//   padding-right: 2px;
-//   border: 0px;
-// }
+.card-header {
+  background-color: var(--content);
+  border: var(--border) solid var(--content);
+  color: var(--text);
+  padding-left: 2px;
+  padding-right: 2px;
+  border: 0px;
+}
 
-// .card-body {
-//   background-color: var(--content);
-//   border: 1px solid var(--content);
-// }
+.card-body {
+  background-color: var(--bgColor);
+  border: 1px solid var(--content);
+}
 
-// .custom-control-input:checked ~ .custom-control-label::before {
-//   background: var(--content);
-//   border-color: var(--content);
-// }
+.custom-control-input:checked ~ .custom-control-label::before {
+  background: var(--content);
+  border-color: var(--content);
+}
 
-// .break {
-//   margin: 0px;
-//   margin-left: 50px;
-//   margin-right: 50px;
-//   border-top: 2px;
-// }
+.break {
+  margin: 0px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border-top: 2px;
+}
 
-// .card {
-//   border: 0px solid var(--content);
-// }
+.card {
+  border: 0px solid var(--content);
+}
 
 select#formGridState {
   color: var(--text);
@@ -122,6 +124,7 @@ hr {
   text-align: center;
   border-radius: 10px;
   box-shadow: 0px 0px 5px #777;
+  text-transform: uppercase;
 }
 
 .subtitle {
@@ -162,11 +165,7 @@ canvas {
   height: 100px;
   width: 100px;
 }
-// .DonutChart {
-//   display: block !important;
-//   height: 178px !important;
-//   width: 356px !important;
-// }
+
 // 4 - Metamorphic Testing
 .tablename {
   background: linear-gradient(90deg, var(--content) 0%, rgba(0, 0, 0, 1) 100%);
@@ -189,7 +188,8 @@ h6,
 h5,
 h4,
 h3,
-h2 {
+.nav-link,
+.nav-link:hover {
   color: var(--text);
 }
 
@@ -260,6 +260,15 @@ input.form-control {
   position: absolute;
   top: 40%;
   left: 45%;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // Dataset Selector
@@ -384,89 +393,122 @@ a.dropdown-toggle.nav-link:focus {
   background-color: var(--content);
 }
 
-//Buyttons
 .myButton {
-  margin-top: 10px !important;
+  border: 1px solid var(--text);
   background: var(--content) !important;
   color: val(--text) !important;
   &:hover {
+    border: 1px solid var(--content);
+
     background: var(--text) !important;
     color: var(--content) !important;
   }
   &:focus {
-    background: var(--content) !important;
+    border: 1px solid var(--text);
+
+    background-color: var(--bgColor) !important;
     color: var(--text) !important;
-    box-shadow: none !important;
   }
+}
+
+.nav-tabs .nav-link {
+  border-color: var(--text);
+  &.active {
+    background-color: var(--content);
+    color: var(--white);
+  }
+}
+
+// profile page
+
+.accordion-button {
+  text-transform: uppercase;
+  height: 70px;
+  background-color: var(--content) !important;
+  color: var(--text);
+  &:focus {
+    box-shadow: none;
+  }
+  &:not(.collapsed) {
+    color: var(--text);
+  }
+  &:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+  }
+}
+.accordion-body {
+  background-color: var(--bgColor) !important;
+}
+
+.labels {
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 550;
+  opacity: 0.8;
+}
+.fileuploadbtn {
+  position: relative;
+  padding: 7px 11px;
+  font-size: 15px;
+  line-height: 1.5;
+  border-radius: 10px;
+  color: #fff;
+  transition: 0.2s;
+  overflow: hidden;
+}
+
+.fileuploadbtn input[type="file"] {
+  cursor: pointer;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  transform: scale(3);
+  opacity: 0;
+}
+
+.card-profile-image {
+  position: relative;
+}
+
+.card-profile-image img {
+  position: absolute;
+  left: 50%;
+  max-width: 180px;
+  transition: all 0.15s ease;
+  transform: translate(-50%, -30%);
+  border-radius: 0.375rem;
+}
+
+.card-profile-image img:hover {
+  transform: translate(-50%, -33%);
+}
+.rounded-circle {
+  width: 200px;
+  border-radius: 50% !important;
+}
+.form-check-input:checked {
+  background-color: var(--content);
+  border-color: var(--text);
 }
 .btn-primary {
-  border: none !important;
-  &:focus {
-    box-shadow: none !important;
-  }
-}
-.nav-tabs,
-.nav-link {
-  // border-color: var(--text);
-  background: none !important;
-  &.active {
-    color: var(--content) !important;
-  }
+  border: 1px solid var(--text);
+  background: var(--content) !important;
+  color: val(--text) !important;
   &:hover {
+    border: 1px solid var(--content);
+
+    background: var(--text) !important;
     color: var(--content) !important;
   }
-}
-
-//Auth
-
-input.form-control {
   &:focus {
-    background: #f0f0ff;
+    border: 1px solid var(--text);
+
+    background-color: var(--bgColor) !important;
+    color: var(--text) !important;
   }
 }
-.authlables {
-  margin-top: 5px;
-  text-transform: uppercase;
-}
-.title {
-  flex-grow: 1;
-  margin-left: 10px !important;
-}
-.form-control {
-  max-width: 350px;
-}
-.error {
-  position: absolute;
-  color: red;
-  font-size: 0.6rem;
-}
-.myLinks {
-  margin-top: 10px;
-}
-.form-control {
-  font-size: 100% !important;
-}
-//modal
-.ant-steps-icon {
-  margin-left: 10px;
-  font-size: 100%;
-}
-
-.steps-content {
-  margin: 30px;
-  padding: 10px;
-  width: 400px;
-  height: 250px;
-}
-
-.ant-steps-finish-icon {
-  margin-left: -3px;
-  color: var(--bgColor) !important;
-}
-.anticon {
-  font-size: 100%;
-}
-.ant-steps-item-icon {
-  background-color: var(--content) !important;
-  color: val(--bgColor) !important;
+@media screen and (max-width: 765px) {
+  .col-3 {
+    width: 80% !important;
+  }
 }

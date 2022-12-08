@@ -12,31 +12,27 @@ import Uploads from "./views/FileUploader/Uploads";
 
 import i18n from "./i18n";
 import Dashboard from "./views/Pages/Dashboard";
-// var license = require('./license.json');
+import Extractor from "views/csvextractor/Extractor";
+import { auth } from "services";
 const App = (props) => {
-  /*useEffect(() => {
-    if(currentUser){
-    document.documentElement.style.setProperty("--text", currentUser.get("Textcolor"))
-    }else{
-      document.documentElement.style.setProperty("--text", "#fff")
-    }
-  }, []);
-  */
-
   return (
     <I18nextProvider i18n={i18n}>
       <Router>
         <Routes>
-          {/* * {license.structured ? <PrivateRoute exact path="/structured">
-              <Structured />
-            </PrivateRoute> : null} */}
+          {auth.getCurrentUser() ? (
+            <Route
+              exact
+              path={`/${auth.getCurrentUser().id}/tags`}
+              element={<Extractor />}
+            />
+          ) : null}
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/" element={<Uploads />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
 
           {/* <Route exact path="/text" element={<TextPipeline />} /> */}
-          <Route exact path="/image" element={<ImagePipeline />} />
+          {/* <Route exact path="/image" element={<ImagePipeline />} /> */}
           {/* <Route exact path="/config" element={<Config />} /> */}
         </Routes>
       </Router>

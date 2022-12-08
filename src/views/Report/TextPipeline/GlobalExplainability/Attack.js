@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Gallery } from '../../../../components';
+import { Gallery } from 'components';
 
 const Index = (props) => {
     const { data, path } = props;

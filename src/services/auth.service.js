@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import Parse from "./parseService";
 
 export function resetPassword(username) {
@@ -37,6 +38,11 @@ export function createRoles() {
   var superAdminRole = new Parse.Role("Admin", superAdminRoleACL);
   superAdminRole.save();
 }
+export const sendEmail = () => {
+  Parse.Cloud.run("notificationmail").then((data) => {
+    console.log(data);
+  });
+};
 
 export function signup(username, password) {
   const user = new Parse.User();
@@ -141,3 +147,76 @@ export function checkIfSuperAdmin() {
 }
 
 export function setAdmin() {}
+
+export const FileuploadDataset = (file) => {
+  let roundvalue = 0;
+  let parseFile = new Parse.File(file.name, file);
+  return parseFile
+    .save({
+      progress: (value) => {
+        roundvalue = Math.round(value * 100);
+        // console.log(roundvalue);
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      console.log(res._url);
+
+      getCurrentUser().set("dataset", res._url);
+      getCurrentUser().save();
+      var newStore = new Parse.Object("File");
+      newStore.set("File", parseFile);
+      newStore.save();
+      console.log(res);
+      return roundvalue;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const FileuploadModal = (file) => {
+  let roundvalue = 0;
+  let parseFile = new Parse.File(file.name, file);
+  return parseFile
+    .save({
+      progress: (value) => {
+        roundvalue = Math.round(value * 100);
+        // console.log(roundvalue);
+      },
+    })
+    .then((res) => {
+      getCurrentUser().set("model", res._url);
+      getCurrentUser().save();
+      var newStore = new Parse.Object("File");
+      newStore.set("File", parseFile);
+      newStore.save();
+      console.log(res);
+      return roundvalue;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const FileuploadEmbedded = (file) => {
+  let roundvalue = 0;
+  let parseFile = new Parse.File(file.name, file);
+  return parseFile
+    .save({
+      progress: (value) => {
+        roundvalue = Math.round(value * 100);
+        // console.log(roundvalue);
+      },
+    })
+    .then((res) => {
+      getCurrentUser().set("embedded", res._url);
+      getCurrentUser().save();
+      var newStore = new Parse.Object("File");
+      newStore.set("File", parseFile);
+      newStore.save();
+      console.log(res);
+      return roundvalue;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

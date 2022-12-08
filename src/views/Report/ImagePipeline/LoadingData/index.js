@@ -1,8 +1,7 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
-import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-import Gallery from "react-grid-gallery";
+import {Gallery} from "react-grid-gallery";
 
 const Index = (props) => {
   const { title, data, path } = props;
@@ -24,8 +23,8 @@ const Index = (props) => {
     {
       src: path + data[keys[1]],
       thumbnail: path + data[keys[1]],
-      thumbnailWidth: 600,
-      thumbnailHeight: 300,
+      width: 600,
+      height: 300,
     },
   ];
   const chartData = {
@@ -37,6 +36,9 @@ const Index = (props) => {
       },
     ],
   };
+
+  //<Doughnut data={chartData} />
+
   return (
     <section id="loading">
       <Row>
@@ -59,7 +61,7 @@ const Index = (props) => {
             {data[keys[2]].image_shape[1]}
           </p>
           <p>Test Size: {data[keys[2]].test_size}</p>
-          <Doughnut className="DonutChart" data={chartData} />
+
         </Col>
       </Row>
       <br />

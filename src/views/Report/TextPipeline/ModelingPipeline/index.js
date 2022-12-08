@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Table } from 'react-bootstrap';
-import Gallery from 'react-grid-gallery';;
+import {Gallery} from 'react-grid-gallery';;
 
 const Index = (props) => {
   const { title, data, path } = props;
@@ -17,8 +17,8 @@ const Index = (props) => {
   var IMAGES = [{
     src: path + data[keys[3]].img_path,
     thumbnail: path + data[keys[3]].img_path,
-    thumbnailWidth: 1000,
-    thumbnailHeight: 400,
+    width: 1000,
+    height: 400,
   }];
   return (
     <Row id="modeling">

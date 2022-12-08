@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Gallery from 'react-grid-gallery';
+import {Gallery} from 'react-grid-gallery';
 
 const Index = (props) => {
 
@@ -10,8 +10,8 @@ const Index = (props) => {
     src: path + data.img_path,
     thumbnail: path + data.img_path,
     caption: title,
-    thumbnailWidth: 500,
-    thumbnailHeight: 300
+    width: 500,
+    height: 300
   }];
   return (
     <Row>

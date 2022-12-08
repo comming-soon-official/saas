@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Table } from 'react-bootstrap';
-import { ExpandableTable } from '../../../../components';
+import { ExpandableTable } from 'components';
 
 const Index = (props) => {
   const { title, data } = props;

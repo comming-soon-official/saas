@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import { Modalcontent1, Modalcontent2, Modalcontent3 } from "./ModalContents";
 import Parse from "../services/parseService";
 import { useNavigate } from "react-router-dom";
+import { auth } from "services";
 
 const { Step } = Steps;
 
@@ -91,6 +92,9 @@ const ComponentModal = () => {
           btn,
         });
       })
+      .then(() => {
+        auth.sendEmail();
+      })
       .catch((error) => {
         notification["error"]({
           message: "Error",
@@ -113,8 +117,8 @@ const ComponentModal = () => {
   return (
     <>
       <Button
-        style={{ width: "300px" }}
-        className="myButton centre"
+        // style={{ width: "300px", marginLeft: "300px", marginTop: "30px" }}
+        className="myButton ModalButton"
         onClick={showModal}
       >
         Proceed

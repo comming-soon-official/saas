@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
-import Gallery from "react-grid-gallery";
+import {Gallery} from "react-grid-gallery";
 //var TFile = require('../data/covid_mask/meta_info/model_summary.txt');
 
 //console.log(TFile);
@@ -22,14 +22,14 @@ const Index = (props) => {
     {
       src: path + data[keys[2]],
       thumbnail: path + data[keys[2]],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
     {
       src: path + data[keys[3]],
       thumbnail: path + data[keys[3]],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
   ];
   return (

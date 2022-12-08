@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Table } from 'react-bootstrap';
-import { ExpandableTable } from "../../../../components";
-// import Gallery from 'react-grid-gallery';
+import { ExpandableTable } from "components";
+// import {Gallery} from 'react-grid-gallery';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons';
 

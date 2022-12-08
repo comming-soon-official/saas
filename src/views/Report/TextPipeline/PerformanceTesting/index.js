@@ -3,7 +3,8 @@ import { Row, Col } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import Attack from './Attack';
 import Failure from './Failure';
-import { Gallery } from '../../../../components';
+import Plots from './Plots';
+import { Gallery } from 'components';
 
 const Index = (props) => {
   const { title, data, path } = props;
@@ -13,9 +14,9 @@ const Index = (props) => {
       <Col className="section">
         <h2 className="title">{title}</h2>
         <p>{data.one_liner}</p>
-        <h5 className="subtitle">{keys[1]}</h5>
         { keys.includes("Plots") ?
-          <Gallery
+          <Plots
+            title={keys[1]}
             data={data["Plots"]}
             path={path} /> : null }
         { keys.includes("Soak Test") ?

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-// import Gallery from 'react-grid-gallery';
+// import {Gallery} from 'react-grid-gallery';
 
 const Index = (props) => {
   const { title, data } = props;

@@ -7,18 +7,9 @@ const axios = require('axios').default;
 
 const Index = (props) => {
   const { title, data, path} = props;
-  var tableHtml = "";
   const keys = Object.keys(data);
   const subKeys = Object.keys(data[keys[1]]);
   const tableData = data[keys[1]][subKeys[2]];
-  const query = path + data[keys[1]][subKeys[0]].data_path;
-  axios.get(query).then((response) => {
-    //console.log(response.data);
-    // const tableData1 = response.data;
-    tableHtml = <Table bordered responsive size="sm"><thead><tr><td>Header1</td></tr></thead><tbody></tbody></Table>;
-  }).catch((response) => {
-    console.log(response);
-  })
   // {subKeys1.map((subKey) => <td key={subKey}>{subKey}</td>)}
   return (
     <section id="whiteboxtesting">
@@ -46,7 +37,6 @@ const Index = (props) => {
             </h5>
           </Col>
         </Row>
-        { tableHtml }
         <Row id="neurons">
           <Col>
             <h6 className="tablename">{subKeys[2].toUpperCase()}</h6>

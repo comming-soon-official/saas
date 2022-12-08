@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
-import Gallery from "react-grid-gallery";
+import {Gallery} from "react-grid-gallery";
 
 const Index = (props) => {
   const { title, data, path } = props;
@@ -22,14 +22,14 @@ const Index = (props) => {
     {
       src: process.env.PUBLIC_URL + path + data["loss_plot_path"],
       thumbnail: process.env.PUBLIC_URL + path + data["loss_plot_path"],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
     {
       src: process.env.PUBLIC_URL + path + data["accuracy_plot_path"],
       thumbnail: process.env.PUBLIC_URL + path + data["accuracy_plot_path"],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
   ];
   return (

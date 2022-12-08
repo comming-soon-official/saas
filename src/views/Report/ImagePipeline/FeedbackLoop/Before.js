@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
-import Gallery from "react-grid-gallery";
+import {Gallery} from "react-grid-gallery";
 
 export const Index = (props) => {
   const { title, data, path } = props;
@@ -19,14 +19,14 @@ export const Index = (props) => {
     {
       src: process.env.PUBLIC_URL + path + data[keys[0]],
       thumbnail: process.env.PUBLIC_URL + path + data[keys[0]],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
     {
       src: process.env.PUBLIC_URL + path + data[keys[1]],
       thumbnail: process.env.PUBLIC_URL + path + data[keys[1]],
-      thumbnailWidth: 500,
-      thumbnailHeight: 300,
+      width: 500,
+      height: 300,
     },
   ];
 

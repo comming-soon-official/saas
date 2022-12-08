@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+
+import { Button, Container } from "react-bootstrap";
 import { Progress, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 
@@ -30,7 +31,6 @@ var CurrentUser = auth.getCurrentUser();
 
 const Uploads = () => {
   const [progress, setProgress] = useState(0);
-  const [filname, setFilename] = useState("");
 
   useEffect(() => {
     if (CurrentUser) {
@@ -45,92 +45,107 @@ const Uploads = () => {
     window.location = "/login";
   };
 
-  const onFileChange = (file) => {
+  const onFileChangeDataset = (file) => {
     setProgress(0);
-    setFilename("");
-    var parseFile = new Parse.File(file.name, file);
-    setFilename(file.name);
-    parseFile
-      .save({
-        progress: (value) => {
-          setProgress(Math.round(value * 100));
-          console.log(Math.round(value * 100));
-        },
-      })
-      .then(
-        function (ok) {
-          console.log(ok);
-        },
-        function (error) {
-          console.log(error);
-        }
-      );
-    var newStore = new Parse.Object("File");
-    newStore.set("File", parseFile);
-    newStore.save();
-    return false;
+    auth.FileuploadDataset(file).then((data) => {
+      setProgress(data);
+    });
+  };
+  const onFileChangeModal = (file) => {
+    setProgress(0);
+    auth.FileuploadModal(file).then((data) => {
+      setProgress(data);
+    });
+  };
+  const onFileChangeEmbedded = (file) => {
+    setProgress(0);
+    auth.FileuploadEmbedded(file).then((data) => {
+      setProgress(data);
+    });
   };
 
   return (
     <div>
       <MainNavbar logout={logout} />
-      <div className="draggerbox">
-        <div className="filecomponentbox">
-          <div className="fileuploadbox">
-            <Upload.Dragger
-              multiple={true}
-              name="file"
-              className="uploadbox"
-              showUploadList={true}
-              maxCount={1}
-              beforeUpload={onFileChange}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to Upload</p>
-              <p>Upload your ModalFile</p>
-            </Upload.Dragger>
-          </div>
-          <div className="fileuploadbox">
-            <Upload.Dragger
-              multiple={true}
-              name="file"
-              className="uploadbox"
-              showUploadList={true}
-              maxCount={1}
-              beforeUpload={onFileChange}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to Upload</p>
-              <p>Upload Dataset (Optional) </p>
-            </Upload.Dragger>
-            {progress ? (
-              <div
-                className="progressposition"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+      <Container fluid>
+        <div className="draggerbox">
+          <div className="filecomponentbox">
+            <div className="fileuploadbox">
+              <Upload.Dragger
+                accept=".csv"
+                multiple={true}
+                name="file"
+                className="uploadbox"
+                showUploadList={true}
+                maxCount={1}
+                beforeUpload={onFileChangeDataset}
               >
+                <img
+                  src="https://cdn.iconscout.com/icon/free/png-256/csv-1832607-1552247.png"
+                  alt="modal"
+                  width={100}
+                  height={100}
+                />
+
+                {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
+                <p>Upload your Dataset</p>
+              </Upload.Dragger>
+            </div>
+            <div className="fileuploadbox">
+              <Upload.Dragger
+                multiple={true}
+                name="file"
+                className="uploadbox"
+                showUploadList={true}
+                maxCount={1}
+                beforeUpload={onFileChangeModal}
+              >
+                <img
+                  src="https://cdn.iconscout.com/icon/free/png-256/ai-66-433729.png"
+                  alt="csv"
+                  width={100}
+                  height={100}
+                />
+                {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
+
+                <p>Upload Your Modal (Optional) </p>
+              </Upload.Dragger>
+            </div>
+            <div className="fileuploadbox">
+              <Upload.Dragger
+                multiple={true}
+                name="file"
+                className="uploadbox"
+                showUploadList={true}
+                maxCount={1}
+                beforeUpload={onFileChangeEmbedded}
+              >
+                <img
+                  src="https://cdn.iconscout.com/icon/free/png-256/embedded-2082810-1750241.png"
+                  alt="embedded"
+                  width={100}
+                  height={100}
+                />
+                {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
+
+                <p>Upload Embedded Support file (Optional) </p>
+              </Upload.Dragger>
+            </div>
+          </div>
+          <div>
+            {progress ? (
+              <div className="progressposition">
                 <Progress
                   type="circle"
                   percent={progress}
-                  format={(percent) =>
-                    `${percent === 100 ? "done" : percent + "%"}`
-                  }
+                  format={(percent) => `${percent + "%"}`}
                 />
               </div>
             ) : null}
-            {progress ? <ComponentModal /> : null}
+            {progress ? <ComponentModal className="modalswitchbutton" /> : null}
           </div>
         </div>
-      </div>
-      {/* <div className="primary">
+        {/* <div className="primary">
         <div className="box">
           <h2 className="header">React drop files input</h2>
           <DropFileInput onFileChange={(files) => onFileChange(files)} />
@@ -138,6 +153,7 @@ const Uploads = () => {
           {progress ? <ComponentModal /> : null}
         </div>
       </div> */}
+      </Container>
     </div>
   );
 };
