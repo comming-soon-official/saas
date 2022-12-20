@@ -8,21 +8,19 @@ import { Images } from "../themes";
 import "./index.css";
 var CurrentUser = auth.getCurrentUser();
 var authData = CurrentUser ? CurrentUser.get("authData") : null;
+let CurrentUserMail = CurrentUser ? CurrentUser.get("email") : null;
 const MainNavbar = ({ logout }) => {
   const [anonuser, setAnonuser] = useState(true);
 
   useEffect(() => {
     if (authData !== undefined && authData?.anonymous !== undefined) {
       console.log("Anonuser");
-
       setAnonuser(true);
-    } else if (authData === undefined) {
-      console.log("Non Anonuser");
-
-      setAnonuser(false);
     } else {
-      console.log("hello");
+      console.log("Non Anonuser");
+      setAnonuser(false);
     }
+    console.log(authData);
   }, []);
 
   return (
@@ -48,7 +46,7 @@ const MainNavbar = ({ logout }) => {
             <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link> */}
           </Nav>
-          <Col style={{ marginTop: "-10px" }} xs={1}>
+          <Col style={{ marginTop: "-3px" }} xs={1}>
             <Dropdown className="dropdown">
               <Dropdown.Toggle className="myButton" id="profile-menu">
                 <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
@@ -56,26 +54,9 @@ const MainNavbar = ({ logout }) => {
               <Dropdown.Menu>
                 {/* <Dropdown.Item>{username}</Dropdown.Item> */}
                 {/* <Dropdown.Divider /> */}
-                {anonuser ? (
+                {!anonuser ? (
                   <>
-                    <Dropdown.Item
-                      onClick={() => {
-                        window.location = "/login";
-                      }}
-                    >
-                      Login
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        window.location = "/signup";
-                      }}
-                    >
-                      Signup
-                    </Dropdown.Item>
-                  </>
-                ) : (
-                  <>
-                    <Dropdown.Item>{CurrentUser.get("email")}</Dropdown.Item>
+                    <Dropdown.Item>{CurrentUserMail}</Dropdown.Item>
                     <Dropdown.Divider />
 
                     <Dropdown.Item
@@ -92,8 +73,32 @@ const MainNavbar = ({ logout }) => {
                     >
                       Report
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={() => auth.logout()}>
+                    <Dropdown.Item
+                      onClick={() =>
+                        auth.logout().then(() => {
+                          window.location = "/";
+                          // window.location.reload();
+                        })
+                      }
+                    >
                       Logout
+                    </Dropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = "/login";
+                      }}
+                    >
+                      Login
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = "/signup";
+                      }}
+                    >
+                      Signup
                     </Dropdown.Item>
                   </>
                 )}

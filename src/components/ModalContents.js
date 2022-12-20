@@ -27,8 +27,20 @@ const { Option } = Select;
 //   );
 // };
 
+export const ContactInfo = () => {
+  return (
+    <>
+      <p style={{ fontSize: 20 }}>
+        We Hope Everything is Going Fine,
+        <br /> If Anything Goes Wrong Please Contact Us
+        <br /> himal.b@testaing.com
+      </p>
+    </>
+  );
+};
 export const Modalcontent2 = (props) => {
-  const { fullName, setFullName, email, setEmail } = props;
+  const { fullName, setFullName, email, setEmail, setPassowrd, password } =
+    props;
   // const validate = Yup.object({
   //   fullName: Yup.string().required("Name is required"),
   //   email: Yup.string()
@@ -67,9 +79,10 @@ export const Modalcontent2 = (props) => {
       > */}
       {/* {(formik) => ( */}
       <div>
-        <h3>Information Detials</h3>
+        <h3>Signup To Proceed</h3>
+        <hr />
         {/* <h3>Detials</h3> */}
-        <Form layout="vertical">
+        <Form autoComplete="off" layout="vertical">
           <Form.Item
             className="username"
             label="Full Name"
@@ -77,7 +90,7 @@ export const Modalcontent2 = (props) => {
             rules={[
               {
                 required: true,
-                message: "Please your full name!",
+                message: "Please put your full name!",
               },
             ]}
           >
@@ -94,7 +107,7 @@ export const Modalcontent2 = (props) => {
             rules={[
               {
                 required: true,
-                message: "Please input your email!",
+                message: "Please put your email!",
               },
             ]}
           >
@@ -102,6 +115,24 @@ export const Modalcontent2 = (props) => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Eg:- himal.b@testaing.com"
+            />
+          </Form.Item>
+          <Form.Item
+            className="username"
+            label="Password"
+            colon={false}
+            rules={[
+              {
+                required: true,
+                message: "Please your full name!",
+              },
+            ]}
+          >
+            <Input.Password
+              value={password}
+              placeholder="input password"
+              onChange={(event) => setPassowrd(event.target.value)}
+              autoComplete="off"
             />
           </Form.Item>
 
@@ -169,6 +200,7 @@ export const Modalcontent3 = (props) => {
     <>
       <div>
         <h3>Name Your Project</h3>
+        <hr />
         <br />
         <Form layout="vertical">
           <Form.Item
@@ -178,7 +210,7 @@ export const Modalcontent3 = (props) => {
             rules={[
               {
                 required: true,
-                message: "Please your full name!",
+                message: "Please put full project",
               },
             ]}
           >

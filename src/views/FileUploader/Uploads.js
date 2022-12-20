@@ -31,6 +31,20 @@ var CurrentUser = auth.getCurrentUser();
 
 const Uploads = () => {
   const [progress, setProgress] = useState(0);
+  const [loggineduser, setLoggineduser] = useState(null);
+
+  var CurrentUser = auth.getCurrentUser();
+
+  var authData = CurrentUser ? CurrentUser.get("authData") : null;
+  useEffect(() => {
+    if (authData !== undefined && authData?.anonymous !== undefined) {
+      console.log("Non Loginned User");
+      setLoggineduser(false);
+    } else {
+      console.log("Loginned User");
+      setLoggineduser(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (CurrentUser) {
@@ -66,7 +80,7 @@ const Uploads = () => {
 
   return (
     <div>
-      <MainNavbar logout={logout} />
+      <MainNavbar />
       <Container fluid>
         <div className="draggerbox">
           <div className="filecomponentbox">
@@ -142,7 +156,12 @@ const Uploads = () => {
                 />
               </div>
             ) : null}
-            {progress ? <ComponentModal className="modalswitchbutton" /> : null}
+            {progress ? (
+              <ComponentModal
+                loggineduser={loggineduser}
+                className="modalswitchbutton"
+              />
+            ) : null}
           </div>
         </div>
         {/* <div className="primary">

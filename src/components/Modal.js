@@ -3,21 +3,32 @@ import "antd/dist/antd.css";
 import "../App.scss";
 import { Steps, Modal, notification } from "antd";
 import { Button } from "react-bootstrap";
-import { Modalcontent1, Modalcontent2, Modalcontent3 } from "./ModalContents";
+import {
+  ContactInfo,
+  Modalcontent1,
+  Modalcontent2,
+  Modalcontent3,
+} from "./ModalContents";
 import Parse from "../services/parseService";
 import { useNavigate } from "react-router-dom";
 import { auth } from "services";
+import { useEffect } from "react";
 
 const { Step } = Steps;
 
-const ComponentModal = () => {
+const ComponentModal = ({ loggineduser }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("");
+  const [password, setPassowrd] = useState("");
   let navigate = useNavigate();
 
+  let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+  useEffect(() => {
+    console.log(loggineduser);
+  }, []);
   // console.log(fullName);
   // console.log(email);
   // console.log(topic);
@@ -27,14 +38,18 @@ const ComponentModal = () => {
     //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
     // },
     {
-      title: "Detials",
-      content: (
+      title: !loggineduser ? "Detials" : "Contact Us",
+      content: !loggineduser ? (
         <Modalcontent2
           email={email}
           setEmail={setEmail}
           fullName={fullName}
           setFullName={setFullName}
+          setPassowrd={setPassowrd}
+          password={password}
         />
+      ) : (
+        <ContactInfo />
       ),
     },
     {
@@ -58,6 +73,8 @@ const ComponentModal = () => {
   };
 
   const next = () => {
+    if (password === "") {
+    }
     setCurrent(current + 1);
   };
 
@@ -75,34 +92,90 @@ const ComponentModal = () => {
       Signup
     </Button>
   );
-  const afterDone = () => {
-    const user = Parse.User.current();
-    user.set("email", email);
-    user.set("fullname", fullName);
-    user.set("topic", topic);
-    user
-      .save()
-      .then(() => {
+
+  const LoginDone = () => {
+    if (topic !== "") {
+      const user = Parse.User.current();
+      user.set("topic", topic);
+      user.save().then(() => {
         setIsModalVisible(false);
-        notification["success"]({
-          message: "Email Sent Sucessfully",
-          description:
-            "Project is added to queue signup to track your application,",
-          duration: 10,
-          btn,
-        });
-      })
-      .then(() => {
-        auth.sendEmail();
-      })
-      .catch((error) => {
-        notification["error"]({
-          message: "Error",
-          description: error.message,
-          duration: 5,
-        });
+        window.location = ` /${auth.getCurrentUser().id}/tags`;
       });
+    } else {
+      notification["error"]({
+        message: "Error",
+        description: "Please Don't Leave Empty Box",
+        duration: 5,
+      });
+    }
   };
+  const WithoutLoginDone = () => {
+    const user = Parse.User.current();
+    if (
+      RegExp.test(password) === true &&
+      email !== "" &&
+      fullName !== "" &&
+      topic !== ""
+    ) {
+      user.set("email", email);
+      user.setUsername(email);
+      user.set("fullname", fullName);
+      user.set("topic", topic);
+      user.setPassword(password);
+      user
+        .signUp()
+        .then(() => {
+          Parse.User.logIn(email, password)
+            .then((res) => {
+              console.log(res);
+              window.location = ` /${auth.getCurrentUser().id}/tags`;
+
+              // auth.sendEmail();
+              setIsModalVisible(false);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
+      console.log(email, password);
+    } else {
+      console.log("exp error");
+    }
+  };
+  // const afterDone = () => {
+  //   const user = Parse.User.current();
+  //   user.set("email", email);
+  //   user.setUsername(email);
+  //   user.set("fullname", fullName);
+  //   user.set("topic", topic);
+  //   user.setPassword(password);
+  //   user
+  //     .signUp()
+  //     .then(() => {
+  //       setIsModalVisible(false);
+  //       notification["success"]({
+  //         message: "Email Sent Sucessfully",
+  //         description:
+  //           "Project is added to queue signup to track your application,",
+  //         duration: 10,
+  //         btn,
+  //       });
+  //     })
+  //     .then(() => {
+  //       auth.sendEmail();
+  //     })
+  //     .catch((error) => {
+  //       notification["error"]({
+  //         message: "Error",
+  //         description: error.message,
+  //         duration: 5,
+  //       });
+  //     });
+  // };
   // const openNotificationWithIcon = (type) => {
   //   setTimeout(() => {
   //     setIsModalVisible(false);
@@ -119,7 +192,9 @@ const ComponentModal = () => {
       <Button
         // style={{ width: "300px", marginLeft: "300px", marginTop: "30px" }}
         className="myButton ModalButton"
-        onClick={showModal}
+        onClick={() => {
+          showModal();
+        }}
       >
         Proceed
       </Button>
@@ -131,6 +206,7 @@ const ComponentModal = () => {
         onCancel={handleCancel}
         footer={null}
         destroyOnClose={true}
+        bodyStyle={!loggineduser ? { height: 550 } : { height: 450 }}
       >
         <Steps current={current}>
           {steps.map((item) => (
@@ -139,19 +215,30 @@ const ComponentModal = () => {
         </Steps>
         <hr />
         <div className="steps-content">{steps[current].content}</div>
+        {!loggineduser ? (
+          <>
+            {" "}
+            <br />
+            <br />
+            <br />
+            <br />
+          </>
+        ) : null}
         <div className="steps-action">
           {current < steps.length - 1 && (
-            <Button className="myButton" onClick={() => next()}>
+            <Button
+              // disabled={disabled}
+              className="myButton"
+              onClick={() => next()}
+            >
               Next
             </Button>
           )}
           {current === steps.length - 1 && (
             <Button
               className="myButton"
-              onClick={() => {
-                afterDone();
-                // openNotificationWithIcon("success");
-              }}
+              onClick={() => (loggineduser ? LoginDone() : WithoutLoginDone())}
+              // onClick={() => WithoutLoginDone()}
               // onSubmit={afterDone}
             >
               Done

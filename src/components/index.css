@@ -10,7 +10,9 @@
   width: 400px;
   height: 250px;
 }
-
+.ant-input-suffix {
+  margin-right: -8px !important;
+}
 .ant-steps-finish-icon {
   margin-left: -3px;
 }
@@ -22,7 +24,9 @@
 }
 
 .ant-form-item-label
-  > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::before {
   content: none;
 }
 .ant-input {

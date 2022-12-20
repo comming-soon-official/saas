@@ -1,18 +1,15 @@
-import React from 'react';
-import {  Navbar, Nav, Container } from 'react-bootstrap';
-import { withTranslation } from 'react-i18next';
+import React from "react";
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 function Navigation(props) {
   var { data } = props;
   const linkHtml = data.map((link, i) => {
-    var linkStr = "#" + (link.split(" ").join("")).toLowerCase();
+    var linkStr = "#" + link.split(" ").join("").toLowerCase();
     return (
       <Nav.Item key={i}>
-        <Nav.Link href={linkStr}>
-          {link}
-        </Nav.Link>
+        <Nav.Link href={linkStr}>{link}</Nav.Link>
       </Nav.Item>
-    )
+    );
   });
   var linkStr = "#" + data[0];
   return (
@@ -29,7 +26,7 @@ function Navigation(props) {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
 
 export default Navigation;

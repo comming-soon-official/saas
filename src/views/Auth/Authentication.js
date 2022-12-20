@@ -17,9 +17,6 @@ export const Signup = () => {
     fullName: Yup.string()
       .max(20, "Must be 20 characters or less")
       .required("Required"),
-    userName: Yup.string()
-      .max(15, "Must be 15 characters or less")
-      .required("Required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
@@ -80,12 +77,6 @@ export const Signup = () => {
                   placeholder="Eg:- Himal .B"
                   label="Fullname"
                   name="fullName"
-                  type="text"
-                />
-                <TextField
-                  placeholder="Eg:- himal"
-                  label="Username"
-                  name="userName"
                   type="text"
                 />
                 <TextField
