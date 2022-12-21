@@ -100,12 +100,12 @@ const Extractor = () => {
           <h2>Tags</h2>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Select Target Tag</Form.Label>
+              <Form.Label>Select Input Tag</Form.Label>
 
               <div style={{ marginBottom: "8px" }}>
                 <Form.Select onChange={handleTargetSelect}>
                   <option defaultValue={target}>
-                    {"Select Your Target Tag"}
+                    {"Select Your Input Tag"}
                   </option>
                   {tags.map((value, index) => {
                     return (
@@ -116,7 +116,7 @@ const Extractor = () => {
                   })}
                 </Form.Select>
                 <br />
-                <Form.Label>Select Destination Tag</Form.Label>
+                <Form.Label>Select Target Tag</Form.Label>
 
                 <Form.Select onChange={handleDestinationSelect}>
                   <option defaultValue={destination}>
@@ -130,6 +130,62 @@ const Extractor = () => {
                     );
                   })}
                 </Form.Select>
+                <br />
+                <h2>Select Embedding Method</h2>
+                <Form>
+                  <Form.Check
+                    inline
+                    label="Embedding1"
+                    name="group1"
+                    type="radio"
+                  />
+                  <Form.Check
+                    inline
+                    label="Embedding2"
+                    name="group1"
+                    type="radio"
+                  />
+                </Form>
+                <br />
+                <h2>Select Modal</h2>
+                <Form>
+                  <Form.Check
+                    inline
+                    label="Modal1"
+                    name="group1"
+                    type="radio"
+                  />
+                  <Form.Check
+                    inline
+                    label="Modal2"
+                    name="group1"
+                    type="radio"
+                  />
+                </Form>
+                <br />
+
+                <h2>Local Explainiblity</h2>
+                <Form>
+                  <Form.Check
+                    inline
+                    label="Lime"
+                    name="group1"
+                    type="checkbox"
+                  />
+                  <Form.Check
+                    inline
+                    label="Shap"
+                    name="group1"
+                    type="checkbox"
+                  />
+                </Form>
+                <br />
+                <label>Enter Row Text</label>
+                <input type="text" placeholder="ROW Text" />
+                <br />
+                <label>Enter Row ID</label>
+                <input type="text" placeholder="ROW ID" />
+
                 {/* <Form.Control
                   type="email"
                   placeholder="Enter Target and Destination Tags"
