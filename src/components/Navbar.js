@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { auth } from "../services";
+import { home, signup, login, dashboard } from "services/paths";
 import { Images } from "../themes";
 import "./index.css";
 var CurrentUser = auth.getCurrentUser();
@@ -37,7 +38,7 @@ const MainNavbar = ({ logout }) => {
             href="#home"
             style={{ marginLeft: "10px", marginTop: "-10px" }}
           >
-            <Link to="/">
+            <Link to={home}>
               <img src={Images.logo} width="120" alt="logo" />
             </Link>
           </Navbar.Brand>
@@ -58,26 +59,26 @@ const MainNavbar = ({ logout }) => {
                   <>
                     <Dropdown.Item>{CurrentUserMail}</Dropdown.Item>
                     <Dropdown.Divider />
-
                     <Dropdown.Item
                       onClick={() => {
-                        window.location = "/dashboard";
+                        window.location = home;
+                      }}
+                    >
+                      Home
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        window.location = dashboard;
                       }}
                     >
                       Dashboard
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        window.location = "/image";
-                      }}
-                    >
-                      Report
-                    </Dropdown.Item>
+
                     <Dropdown.Item
                       onClick={() =>
                         auth.logout().then(() => {
-                          window.location = "/";
-                          // window.location.reload();
+                          window.location = login;
+                          // window.location.reload(;
                         })
                       }
                     >
@@ -88,14 +89,14 @@ const MainNavbar = ({ logout }) => {
                   <>
                     <Dropdown.Item
                       onClick={() => {
-                        window.location = "/login";
+                        window.location = login;
                       }}
                     >
                       Login
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        window.location = "/signup";
+                        window.location = signup;
                       }}
                     >
                       Signup

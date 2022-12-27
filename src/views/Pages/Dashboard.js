@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -10,8 +10,14 @@ import {
 } from "react-bootstrap";
 import "./style.css";
 import { MainNavbar } from "../../components";
+import { auth } from "services";
+import { home, results } from "services/paths";
+const Curretuser = auth.getCurrentUser();
 
 const Dashboard = () => {
+  const [datas, setDatas] = useState(Curretuser.get("Projects"));
+  const [pickproject, setPickproject] = useState(0);
+
   const [projectdata, setProjectData] = useState([
     {
       key: 1,
@@ -44,61 +50,120 @@ const Dashboard = () => {
   ]);
 
   const [infoprojectdata, setInfoProjectData] = useState([
-    {
-      key: 1,
-      stages: "Attack Vector",
-      createdtime: "3:30pm",
-      runtime: 5,
-      status: "error",
-    },
-    {
-      key: 2,
-      stages: "Data Diagonastic",
-      createdtime: "4pm",
-      runtime: 300,
-      status: "pending",
-    },
-    {
-      key: 3,
-      stages: "Modelling Pipeline",
-      createdtime: "1am",
-      runtime: 30,
-      status: "running",
-    },
-    {
-      key: 4,
-      stages: "Metamorpic Testing",
-      createdtime: "10am",
-      runtime: 700,
-      status: "completed",
-    },
-    {
-      key: 5,
-      stages: "Feedback Loop",
-      createdtime: "12pm",
-      runtime: 30,
-      status: "error",
-    },
+    [
+      {
+        key: 1,
+        stages: "Attack Vector",
+        createdtime: "3:30pm",
+        runtime: 5,
+        status: "error",
+      },
+      {
+        key: 2,
+        stages: "Data Diagonastic",
+        createdtime: "4pm",
+        runtime: 300,
+        status: "pending",
+      },
+      {
+        key: 3,
+        stages: "Modelling Pipeline",
+        createdtime: "1am",
+        runtime: 30,
+        status: "running",
+      },
+      {
+        key: 4,
+        stages: "Metamorpic Testing",
+        createdtime: "10am",
+        runtime: 700,
+        status: "completed",
+      },
+      {
+        key: 5,
+        stages: "Feedback Loop",
+        createdtime: "12pm",
+        runtime: 30,
+        status: "error",
+      },
+      {
+        key: 6,
+        stages: "Performance Testaing",
+        createdtime: "12pm",
+        runtime: 30,
+        status: "error",
+      },
+      {
+        key: 7,
+        stages: "Biases Loop",
+        createdtime: "12pm",
+        runtime: 30,
+        status: "error",
+      },
+    ],
+    [
+      {
+        key: 1,
+        stages: "Attack Vector",
+        createdtime: "5:30pm",
+        runtime: 90,
+        status: "sucess",
+      },
+      {
+        key: 2,
+        stages: "Data Diagonastic",
+        createdtime: "1pm",
+        runtime: 100,
+        status: "pending",
+      },
+      {
+        key: 3,
+        stages: "Modelling Pipeline",
+        createdtime: "2am",
+        runtime: 500,
+        status: "running",
+      },
+      {
+        key: 4,
+        stages: "Metamorpic Testing",
+        createdtime: "3am",
+        runtime: 70,
+        status: "completed",
+      },
+      {
+        key: 5,
+        stages: "Feedback Loop",
+        createdtime: "1am",
+        runtime: 3000,
+        status: "error",
+      },
+    ],
   ]);
   const projectTable = () => {
-    return projectdata.map((val, i) => {
+    return datas.map((val, i) => {
       return (
-        <tr key={i}>
-          <td>{val.product}</td>
-          <td>{val.createdtime}</td>
-          <td>{val.status}</td>
+        <tr
+          key={i}
+          onClick={() => {
+            setPickproject(i);
+          }}
+        >
+          <td>{val?.Topic}</td>
+          <td>{projectdata[i]?.createdtime}</td>
+          <td>{projectdata[i]?.status}</td>
         </tr>
       );
     });
   };
+
   const informationTable = () => {
-    return infoprojectdata.map((val, i) => {
+    return infoprojectdata[pickproject].map((val, i) => {
       return (
         <tr key={i}>
-          <td>{val.stages}</td>
-          <td>{val.createdtime}</td>
-          <td>{(val.runtime / 60).toFixed(2)}min</td>
-          <td>{val.status}</td>
+          <td>{val?.stages}</td>
+          <td>{val?.createdtime}</td>
+          <td>{(val?.runtime / 60).toFixed(2)}min</td>
+          <td>{val?.status}</td>
         </tr>
       );
     });
@@ -118,18 +183,39 @@ const Dashboard = () => {
                 <Card.Text>
                   <code>List of projects</code>
                 </Card.Text>
-                <div className="table-responsive">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Project Name</th>
-                        <th>Execution Date</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>{projectTable()}</tbody>
-                  </table>
-                </div>
+                {datas ? (
+                  <div className="table-responsive">
+                    <table className="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Project Name</th>
+                          <th>Execution Date</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>{projectTable()}</tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <h1>No Projects Available</h1>
+                )}
+                <Button
+                  onClick={() => {
+                    window.location = home;
+                  }}
+                >
+                  Start Building Project
+                </Button>
+                {infoprojectdata[pickproject] ? (
+                  <Button
+                    style={{ float: "right" }}
+                    onClick={() => {
+                      window.location = results;
+                    }}
+                  >
+                    View Report
+                  </Button>
+                ) : null}
               </Card.Body>
             </Card>
             <br />
@@ -141,19 +227,23 @@ const Dashboard = () => {
                 <Card.Text>
                   <code>Project Information</code>
                 </Card.Text>
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Stages</th>
-                        <th>Ececuted Time</th>
-                        <th>Run Time</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>{informationTable()}</tbody>
-                  </table>
-                </div>
+                {datas && infoprojectdata[pickproject] ? (
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Stages</th>
+                          <th>Ececuted Time</th>
+                          <th>Run Time</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>{informationTable()}</tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <h1>No Project Information</h1>
+                )}
               </Card.Body>
             </Card>
           </Col>

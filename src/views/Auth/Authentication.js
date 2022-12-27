@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "../../App.scss";
 import { Link } from "react-router-dom";
 import Parse from "../../services/parseService";
+import { dashboard, signup } from "services/paths";
 
 export const Signup = () => {
   let navigate = useNavigate();
@@ -141,8 +142,8 @@ export const Login = () => {
                   duration: 10,
                 });
                 setTimeout(() => {
-                  window.location = "/";
-                }, 3000);
+                  window.location = dashboard;
+                }, 1000);
               })
               .catch((error) => {
                 notification["error"]({
@@ -179,7 +180,7 @@ export const Login = () => {
                 <div>
                   <br />
                   <label className="myLinks">
-                    <Link to="/signup">
+                    <Link to={signup}>
                       Don't have an account? Register Here
                     </Link>
                   </label>
