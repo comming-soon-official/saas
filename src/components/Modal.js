@@ -13,6 +13,7 @@ import Parse from "../services/parseService";
 import { useNavigate } from "react-router-dom";
 import { auth } from "services";
 import { useEffect } from "react";
+import { signup, tags } from "services/paths";
 
 const { Step } = Steps;
 
@@ -25,13 +26,46 @@ const ComponentModal = ({ loggineduser }) => {
   const [password, setPassowrd] = useState("");
   let navigate = useNavigate();
 
-  let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+  // let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
   useEffect(() => {
     console.log(loggineduser);
   }, []);
   // console.log(fullName);
   // console.log(email);
   // console.log(topic);
+
+  // const steps = [
+  //   // {
+  //   //   title: "Catogery",
+  //   //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
+  //   // },
+  //   {
+  //     title: "Detials",
+  //     content: (
+  //       <Modalcontent2
+  //         email={email}
+  //         setEmail={setEmail}
+  //         fullName={fullName}
+  //         setFullName={setFullName}
+  //         setPassowrd={setPassowrd}
+  //         password={password}
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     title: "Project Name",
+  //     content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
+  //   },
+  // ];
+
+  // const steps2 = [
+  //   {
+  //     title: "Project Name",
+  //     content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
+  //   },
+  // ];
+  // const newstep = !loggineduser ? steps : steps2;
+
   const steps = [
     // {
     //   title: "Catogery",
@@ -87,7 +121,7 @@ const ComponentModal = ({ loggineduser }) => {
       style={{ margin: 0 }}
       size="sm"
       className="myButton"
-      onClick={() => (window.location = "/signup")}
+      onClick={() => (window.location = signup)}
     >
       Signup
     </Button>
@@ -99,7 +133,7 @@ const ComponentModal = ({ loggineduser }) => {
       user.set("topic", topic);
       user.save().then(() => {
         setIsModalVisible(false);
-        window.location = ` /${auth.getCurrentUser().id}/tags`;
+        window.location = `/${auth.getCurrentUser().id}/tags`;
       });
     } else {
       notification["error"]({
@@ -111,12 +145,7 @@ const ComponentModal = ({ loggineduser }) => {
   };
   const WithoutLoginDone = () => {
     const user = Parse.User.current();
-    if (
-      RegExp.test(password) === true &&
-      email !== "" &&
-      fullName !== "" &&
-      topic !== ""
-    ) {
+    if (email !== "" && fullName !== "" && topic !== "") {
       user.set("email", email);
       user.setUsername(email);
       user.set("fullname", fullName);
@@ -128,7 +157,7 @@ const ComponentModal = ({ loggineduser }) => {
           Parse.User.logIn(email, password)
             .then((res) => {
               console.log(res);
-              window.location = ` /${auth.getCurrentUser().id}/tags`;
+              window.location = `/${auth.getCurrentUser().id}/tags`;
 
               // auth.sendEmail();
               setIsModalVisible(false);
@@ -143,7 +172,11 @@ const ComponentModal = ({ loggineduser }) => {
         });
       console.log(email, password);
     } else {
-      console.log("exp error");
+      notification["error"]({
+        message: "Error",
+        description: "Please Don't Leave Empty Box",
+        duration: 5,
+      });
     }
   };
   // const afterDone = () => {

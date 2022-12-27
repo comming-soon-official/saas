@@ -142,7 +142,7 @@ export const Login = () => {
                   duration: 10,
                 });
                 setTimeout(() => {
-                  window.location = dashboard;
+                  window.location = `/${user.id}/dashboard`;
                 }, 1000);
               })
               .catch((error) => {

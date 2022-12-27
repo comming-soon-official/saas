@@ -9,6 +9,7 @@ import { Container } from "react-bootstrap";
 import { Button, Form, Tabs, Tab } from "react-bootstrap";
 import { notification } from "antd";
 import { MainNavbar } from "components";
+import { dashboard } from "services/paths";
 let Currentuser = auth.getCurrentUser();
 
 const Extractor = () => {
@@ -16,29 +17,14 @@ const Extractor = () => {
   const [target, setTarget] = useState("");
   const [destination, setDestination] = useState("");
   const [tempobj, setTempobj] = useState(Currentuser.get("Projects"));
+  const [CSVRow, setCSVRow] = useState(null);
+
   const projectmodal = Currentuser.get("modal") ? Currentuser.get("modal") : "";
   const projectembedded = Currentuser.get("embedded")
     ? Currentuser.get("embedded")
     : "";
   const projectTopic = Currentuser.get("topic") ? Currentuser.get("topic") : "";
 
-  const demptemp = () => {
-    const project = {
-      id: window.self.crypto.randomUUID(),
-      Topic: projectTopic,
-      modal: projectmodal,
-      embedded: projectembedded,
-    };
-    if (Currentuser.get("Projects") === undefined) {
-      setTempobj(() => [project]);
-    } else {
-      setTempobj((prev) => [...prev, project]);
-      console.log(tempobj);
-    }
-
-    Currentuser.set("Projects", tempobj);
-    Currentuser.save();
-  };
   useEffect(() => {
     Papa.parse(Currentuser.get("dataset"), {
       download: true,
@@ -55,8 +41,26 @@ const Extractor = () => {
   const handleDestinationSelect = (e) => {
     setDestination(e.target.value);
   };
+  const SelectRows = (e) => {
+    setCSVRow(e.target.value);
+  };
 
   const handleRun = () => {
+    const project = {
+      id: window.self.crypto.randomUUID(),
+      Topic: projectTopic,
+      modal: projectmodal,
+      embedded: projectembedded,
+    };
+    if (Currentuser.get("Projects") === undefined) {
+      setTempobj(() => [project]);
+    } else {
+      setTempobj((prev) => [...prev, project]);
+      console.log(tempobj);
+    }
+    Currentuser.set("Projects", tempobj);
+    Currentuser.save();
+
     fetch("http://127.0.0.1:12345/tags", {
       method: "POST",
       mode: "cors",
@@ -68,9 +72,10 @@ const Extractor = () => {
         target: target,
         destination: destination,
         userid: Currentuser.id,
+        Row: CSVRow,
       }),
     });
-    console.log(target, destination);
+    window.location = dashboard;
   };
 
   return (
@@ -113,17 +118,25 @@ const Extractor = () => {
                 <br />
                 <Form>
                   <Tabs
-                    defaultActiveKey="profile"
+                    defaultActiveKey="id"
                     id="uncontrolled-tab-example"
                     className="mb-3"
                   >
-                    <Tab eventKey="home" title="Row ID">
+                    <Tab eventKey="id" title="Row ID">
                       <Form.Label>Enter Row ID</Form.Label>
-                      <Form.Control type="email" placeholder="Eg: 6" />
+                      <Form.Control
+                        onChange={SelectRows}
+                        type="email"
+                        placeholder="Eg: 6"
+                      />
                     </Tab>
-                    <Tab eventKey="profile" title="Row Text">
+                    <Tab eventKey="row" title="Row Text">
                       <Form.Label>Enter Row Text</Form.Label>
-                      <Form.Control type="email" placeholder="Eg: Gramite" />
+                      <Form.Control
+                        onChange={SelectRows}
+                        type="email"
+                        placeholder="Eg: Gramite"
+                      />
                     </Tab>
                   </Tabs>
                 </Form>
@@ -132,7 +145,7 @@ const Extractor = () => {
           </Form>
 
           <br />
-          <Button onClick={demptemp}>Run Pipeline</Button>
+          <Button onClick={handleRun}>Run Pipeline</Button>
         </div>
       </div>
     </Container>
