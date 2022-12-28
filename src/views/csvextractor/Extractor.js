@@ -18,6 +18,7 @@ const Extractor = () => {
   const [destination, setDestination] = useState("");
   const [tempobj, setTempobj] = useState(Currentuser.get("Projects"));
   const [CSVRow, setCSVRow] = useState(null);
+  const [clicks, setClicks] = useState(0)
 
   const projectmodal = Currentuser.get("modal") ? Currentuser.get("modal") : "";
   const projectembedded = Currentuser.get("embedded")
@@ -45,7 +46,12 @@ const Extractor = () => {
     setCSVRow(e.target.value);
   };
 
+  // useEffect(()=>{
+    
+  // },[])
+
   const handleRun = () => {
+    setClicks(prev=>prev+1)
     const project = {
       id: window.self.crypto.randomUUID(),
       Topic: projectTopic,
@@ -54,6 +60,8 @@ const Extractor = () => {
     };
     if (Currentuser.get("Projects") === undefined) {
       setTempobj(() => [project]);
+      console.log(tempobj);
+
     } else {
       setTempobj((prev) => [...prev, project]);
       console.log(tempobj);
@@ -75,7 +83,11 @@ const Extractor = () => {
         Row: CSVRow,
       }),
     });
-    window.location = dashboard;
+    if(clicks===1){
+      window.location = dashboard;
+    }
+      
+    
   };
 
   return (
