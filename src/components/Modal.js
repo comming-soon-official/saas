@@ -29,6 +29,11 @@ const ComponentModal = ({ loggineduser }) => {
   // let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
   useEffect(() => {
     console.log(loggineduser);
+    if(loggineduser){
+      console.log("im Loginned");
+    }else{
+      console.log("Im not a user");
+    }
   }, []);
   // console.log(fullName);
   // console.log(email);
@@ -64,7 +69,6 @@ const ComponentModal = ({ loggineduser }) => {
   //     content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
   //   },
   // ];
-  // const newstep = !loggineduser ? steps : steps2;
 
   const steps = [
     // {
@@ -72,8 +76,8 @@ const ComponentModal = ({ loggineduser }) => {
     //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
     // },
     {
-      title: !loggineduser ? "Detials" : "Contact Us",
-      content: !loggineduser ? (
+      title:  "Detials",
+      content:(
         <Modalcontent2
           email={email}
           setEmail={setEmail}
@@ -82,15 +86,24 @@ const ComponentModal = ({ loggineduser }) => {
           setPassowrd={setPassowrd}
           password={password}
         />
-      ) : (
-        <ContactInfo />
-      ),
+      ) 
     },
     {
       title: "Project Name",
       content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
     },
   ];
+
+
+    const steps2 = [
+    {
+      title: "Project Name",
+      content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
+    },
+  ];
+
+  const newstep = !loggineduser ? steps : steps2;
+  console.log(newstep);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -134,7 +147,13 @@ const ComponentModal = ({ loggineduser }) => {
       user.save().then(() => {
         setIsModalVisible(false);
         window.location = `/${auth.getCurrentUser().id}/tags`;
-      });
+      }).catch((error)=>{
+        notification["error"]({
+          message: "Error",
+          description: error.message,
+          duration: 5,
+        });
+      })
     } else {
       notification["error"]({
         message: "Error",
@@ -168,7 +187,11 @@ const ComponentModal = ({ loggineduser }) => {
         })
 
         .catch((error) => {
-          console.log(error);
+          notification["error"]({
+            message: "Error",
+            description: error.message,
+            duration: 5,
+          });
         });
       console.log(email, password);
     } else {
@@ -179,47 +202,7 @@ const ComponentModal = ({ loggineduser }) => {
       });
     }
   };
-  // const afterDone = () => {
-  //   const user = Parse.User.current();
-  //   user.set("email", email);
-  //   user.setUsername(email);
-  //   user.set("fullname", fullName);
-  //   user.set("topic", topic);
-  //   user.setPassword(password);
-  //   user
-  //     .signUp()
-  //     .then(() => {
-  //       setIsModalVisible(false);
-  //       notification["success"]({
-  //         message: "Email Sent Sucessfully",
-  //         description:
-  //           "Project is added to queue signup to track your application,",
-  //         duration: 10,
-  //         btn,
-  //       });
-  //     })
-  //     .then(() => {
-  //       auth.sendEmail();
-  //     })
-  //     .catch((error) => {
-  //       notification["error"]({
-  //         message: "Error",
-  //         description: error.message,
-  //         duration: 5,
-  //       });
-  //     });
-  // };
-  // const openNotificationWithIcon = (type) => {
-  //   setTimeout(() => {
-  //     setIsModalVisible(false);
-  //   }, 1000);
-  //   notification[type]({
-  //     message: "Email Sent Sucessfully",
-  //     description:
-  //       "The Project Viewable Link Has been Sent to Your Inbox, Kindly Ckeck.",
-  //     duration: 10,
-  //   });
-  // };
+ 
   return (
     <>
       <Button
@@ -242,12 +225,12 @@ const ComponentModal = ({ loggineduser }) => {
         bodyStyle={!loggineduser ? { height: 550 } : { height: 450 }}
       >
         <Steps current={current}>
-          {steps.map((item) => (
+          {newstep.map((item) => (
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
         <hr />
-        <div className="steps-content">{steps[current].content}</div>
+        <div className="steps-content">{newstep[current].content}</div>
         {!loggineduser ? (
           <>
             {" "}
@@ -258,7 +241,7 @@ const ComponentModal = ({ loggineduser }) => {
           </>
         ) : null}
         <div className="steps-action">
-          {current < steps.length - 1 && (
+          {current < newstep.length - 1 && (
             <Button
               // disabled={disabled}
               className="myButton"
@@ -267,10 +250,10 @@ const ComponentModal = ({ loggineduser }) => {
               Next
             </Button>
           )}
-          {current === steps.length - 1 && (
+          {current === newstep.length - 1 && (
             <Button
               className="myButton"
-              onClick={() => (loggineduser ? LoginDone() : WithoutLoginDone())}
+              onClick={() => (!loggineduser ?  WithoutLoginDone() : LoginDone() )}
               // onClick={() => WithoutLoginDone()}
               // onSubmit={afterDone}
             >
