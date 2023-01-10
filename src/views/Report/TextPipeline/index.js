@@ -19,6 +19,7 @@ import {
   DatasetSelector,
   Loader,
   Navigation,
+  MainNavbar,
 } from "components";
 import { auth } from "services";
 var results_path = "data/text/";
@@ -57,7 +58,7 @@ const Index = () => {
 
   return (
     <Container className="main">
-      <Header title="Text Pipeline" />
+      <MainNavbar />
       <Navigation data={keys} />
       <DatasetSelector choice={pickChoice} results={results} />
       {keys.includes("Data Diagnostic") ? (
