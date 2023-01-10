@@ -57,7 +57,7 @@ const Index = () => {
   var results = results_path + "results.json";
 
   return (
-    <Container className="main">
+    <Container fluid className="impnavbar">
       <MainNavbar />
       <Navigation data={keys} />
       <DatasetSelector choice={pickChoice} results={results} />
