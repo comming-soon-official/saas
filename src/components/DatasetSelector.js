@@ -1,24 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import { auth } from "services";
 
-const Index = ({ datasetSelector, setDatasetSelector }) => {
-  const hello = auth.getCurrentUser().get("Projects");
+const DatasetSelector = (props) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+  const api = auth.getCurrentUser().get("Projects");
+  const choiceSelect = (event) => {
+    const { choice } = props;
+    choice(event.target.attributes.getNamedItem("data-key").value);
+  };
+
+  if (!api) return null;
   return (
     <div className="row selector">
       <div className="col-md-12">
         <Dropdown
           aria-label="Dataset Selector"
           onClick={(e) => {
-            setDatasetSelector(() => console.log(e.target.innerText));
-            return e.target.innerText;
+            setSelectedItem(e.target.innerText);
           }}
         >
           <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            {datasetSelector ? datasetSelector : hello[0].Topic.toUpperCase()}
+            {selectedItem ? selectedItem : api[0].Topic.toUpperCase()}
           </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {hello.map((item, i) => (
+          <Dropdown.Menu onClick={choiceSelect}>
+            {api.map((item, i) => (
               <Dropdown.Item data-key={++i} key={i}>
                 {item.Topic.toUpperCase()}
               </Dropdown.Item>
@@ -30,4 +36,4 @@ const Index = ({ datasetSelector, setDatasetSelector }) => {
   );
 };
 
-export default Index;
+export default DatasetSelector;

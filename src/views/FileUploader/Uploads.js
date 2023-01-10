@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Button, Container } from "react-bootstrap";
 import { Progress, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -80,7 +79,6 @@ const Uploads = () => {
       setProgress(data);
     });
   };
-
   return (
     <div>
       <MainNavbar />

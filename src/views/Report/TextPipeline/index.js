@@ -19,7 +19,6 @@ import {
   DatasetSelector,
   Loader,
   Navigation,
-  MainNavbar,
 } from "components";
 import { auth } from "services";
 var results_path = "data/text/";
@@ -28,55 +27,39 @@ const Index = () => {
   const [paths, setPaths] = useState(null);
   const [choice, setChoice] = useState(0);
   const [data, setData] = useState(null);
-  const [datasetSelector, setDatasetSelector] = useState(null);
-  // useEffect(() => {
-  //   const hello = auth.getCurrentUser().get("Projects");
-  //   hello.map((i) => {
-  //     console.log(i.Topic);
-  //   });
-  // }, [datasetSelector]);
+  const api = auth.getCurrentUser().get("Projects");
+
+  const pickChoice = (choice) => {
+    setChoice(--choice);
+  };
 
   const setPickedData = () => {
-    var path = results_path + paths[choice] + "/json_metadata.json";
+    console.log(api[choice].Topic);
+    var path = results_path + api[choice].Topic + "/json_metadata.json";
+    console.log(path);
     fetch(path)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
+        setChoice(choice);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    fetch(results_path + "results.json")
-      .then((res) => res.json())
-      .then((result) => {
-        setPaths(result.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setPickedData();
   }, [choice]);
-
-  useEffect(() => {
-    if (paths != null) {
-      setPickedData(0);
-    }
-  }, [paths]);
 
   if (data == null) return <Loader />;
   var keys = Object.keys(data);
-  var path = results_path + paths[choice] + "/";
+  var path = results_path + api[choice].Topic + "/";
   var results = results_path + "results.json";
 
   return (
-    <Container fluid className="impnavbar">
-      <MainNavbar />
+    <Container className="main">
+      <Header title="Text Pipeline" />
       <Navigation data={keys} />
-      <DatasetSelector
-        setDatasetSelector={setDatasetSelector}
-        datasetSelector={datasetSelector}
-      />
-      {console.log(datasetSelector)}
+      <DatasetSelector choice={pickChoice} results={results} />
       {keys.includes("Data Diagnostic") ? (
         <DataPaths
           title="Data Diagnostic"
