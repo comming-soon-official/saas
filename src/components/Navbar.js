@@ -2,7 +2,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Dropdown, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../services";
 import { home, signup, login, dashboard } from "services/paths";
 import { Images } from "../themes";
@@ -12,21 +12,30 @@ var authData = CurrentUser ? CurrentUser.get("authData") : null;
 let CurrentUserMail = CurrentUser ? CurrentUser.get("email") : null;
 const MainNavbar = ({ logout }) => {
   const [anonuser, setAnonuser] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const dummy = () => {
     if (authData !== undefined && authData?.anonymous !== undefined) {
-      console.log("Anonuser");
+      setAnonuser(true);
+    } else if (
+      authData ? Object.keys(authData?.anonymous).length === 0 : null
+    ) {
+      console.log(authData);
+      setAnonuser(true);
+    } else if (typeof (authData === undefined) && CurrentUser) {
+      setAnonuser(false);
+    } else if (typeof (authData === undefined)) {
       setAnonuser(true);
     } else {
-      console.log("Non Anonuser");
       setAnonuser(false);
     }
-    console.log(authData);
-  }, []);
-
+  };
+  useEffect(() => {
+    dummy();
+  }, [anonuser]);
   return (
     <>
-      <Container>
+      <Container fluid className="impnavbar">
         <Navbar
           style={{
             marginBottom: "-10px",

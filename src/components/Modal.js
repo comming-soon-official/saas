@@ -29,55 +29,17 @@ const ComponentModal = ({ loggineduser }) => {
   // let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
   useEffect(() => {
     console.log(loggineduser);
-    if(loggineduser){
+    if (loggineduser) {
       console.log("im Loginned");
-    }else{
+    } else {
       console.log("Im not a user");
     }
   }, []);
-  // console.log(fullName);
-  // console.log(email);
-  // console.log(topic);
-
-  // const steps = [
-  //   // {
-  //   //   title: "Catogery",
-  //   //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
-  //   // },
-  //   {
-  //     title: "Detials",
-  //     content: (
-  //       <Modalcontent2
-  //         email={email}
-  //         setEmail={setEmail}
-  //         fullName={fullName}
-  //         setFullName={setFullName}
-  //         setPassowrd={setPassowrd}
-  //         password={password}
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     title: "Project Name",
-  //     content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
-  //   },
-  // ];
-
-  // const steps2 = [
-  //   {
-  //     title: "Project Name",
-  //     content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
-  //   },
-  // ];
 
   const steps = [
-    // {
-    //   title: "Catogery",
-    //   content: <Modalcontent1 catogery={catogery} setCatogery={setCatogery} />,
-    // },
     {
-      title:  "Detials",
-      content:(
+      title: "Detials",
+      content: (
         <Modalcontent2
           email={email}
           setEmail={setEmail}
@@ -86,7 +48,7 @@ const ComponentModal = ({ loggineduser }) => {
           setPassowrd={setPassowrd}
           password={password}
         />
-      ) 
+      ),
     },
     {
       title: "Project Name",
@@ -94,8 +56,7 @@ const ComponentModal = ({ loggineduser }) => {
     },
   ];
 
-
-    const steps2 = [
+  const steps2 = [
     {
       title: "Project Name",
       content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
@@ -144,16 +105,19 @@ const ComponentModal = ({ loggineduser }) => {
     if (topic !== "") {
       const user = Parse.User.current();
       user.set("topic", topic);
-      user.save().then(() => {
-        setIsModalVisible(false);
-        window.location = `/${auth.getCurrentUser().id}/tags`;
-      }).catch((error)=>{
-        notification["error"]({
-          message: "Error",
-          description: error.message,
-          duration: 5,
+      user
+        .save()
+        .then(() => {
+          setIsModalVisible(false);
+          window.location = `/${auth.getCurrentUser().id}/tags`;
+        })
+        .catch((error) => {
+          notification["error"]({
+            message: "Error",
+            description: error.message,
+            duration: 5,
+          });
         });
-      })
     } else {
       notification["error"]({
         message: "Error",
@@ -202,7 +166,7 @@ const ComponentModal = ({ loggineduser }) => {
       });
     }
   };
- 
+
   return (
     <>
       <Button
@@ -217,7 +181,7 @@ const ComponentModal = ({ loggineduser }) => {
       <Modal
         title="Aiensured"
         maskClosable={false}
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
@@ -253,7 +217,7 @@ const ComponentModal = ({ loggineduser }) => {
           {current === newstep.length - 1 && (
             <Button
               className="myButton"
-              onClick={() => (!loggineduser ?  WithoutLoginDone() : LoginDone() )}
+              onClick={() => (!loggineduser ? WithoutLoginDone() : LoginDone())}
               // onClick={() => WithoutLoginDone()}
               // onSubmit={afterDone}
             >

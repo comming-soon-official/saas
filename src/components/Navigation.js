@@ -14,7 +14,7 @@ function Navigation(props) {
   var linkStr = "#" + data[0];
   return (
     <Navbar collapseOnSelect variant="primary" expand="lg">
-      <Container>
+      <Container fluid className="impnavbar">
         <Navbar.Brand href="#home">
           <h1 className="navBrand">Report</h1>
         </Navbar.Brand>

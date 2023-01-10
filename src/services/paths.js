@@ -6,4 +6,4 @@ export const dashboard = `/${CurrentUserID}/dashboard`;
 export const login = `/login`;
 export const signup = `/signup`;
 export const tags = `/${CurrentUserID}/tags`;
-export const results = `/${CurrentUserID}/results`;
+export const report = `/report${CurrentUserID}`;

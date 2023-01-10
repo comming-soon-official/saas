@@ -116,7 +116,6 @@ export const Signup = () => {
 };
 
 export const Login = () => {
-  const loginned = () => {};
   const validate = Yup.object({
     email: Yup.string().email("please enter valid email").required("Required"),
     password: Yup.string().required("Password is required"),

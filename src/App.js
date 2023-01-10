@@ -6,7 +6,7 @@ import Parse from "./services/parseService";
 // import Config from './views/Config';
 
 // import { TextPipeline, ImagePipeline } from "./views/Report";
-import { ImagePipeline } from "./views/Report";
+import { TextPipeline } from "./views/Report";
 import { Login, Signup } from "./views/Auth/Authentication";
 import Uploads from "./views/FileUploader/Uploads";
 
@@ -14,7 +14,7 @@ import i18n from "./i18n";
 import Dashboard from "./views/Pages/Dashboard";
 import Extractor from "views/csvextractor/Extractor";
 import { auth } from "services";
-import { home, dashboard, tags, login, signup } from "./services/paths";
+import { home, dashboard, tags, login, signup, report } from "./services/paths";
 const App = (props) => {
   useEffect(() => {
     auth.getCurrentUser() && auth.getCurrentUser().fetch();
@@ -26,6 +26,7 @@ const App = (props) => {
           <Routes>
             <Route exact path={tags} element={<Extractor />} />
             <Route exact path={dashboard} element={<Dashboard />} />
+            <Route exact path={report} element={<TextPipeline />} />
           </Routes>
         ) : null}
         <Routes>

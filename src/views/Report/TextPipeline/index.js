@@ -14,30 +14,34 @@ import Counterfactuals from "./Counterfactuals";
 import ScrollToTop from "react-scroll-to-top";
 
 import {
-  MainNavbar,
+  Header,
   Footer,
   DatasetSelector,
   Loader,
   Navigation,
+  MainNavbar,
 } from "components";
+import { auth } from "services";
 var results_path = "data/text/";
 
 const Index = () => {
   const [paths, setPaths] = useState(null);
   const [choice, setChoice] = useState(0);
   const [data, setData] = useState(null);
+  const [datasetSelector, setDatasetSelector] = useState(null);
+  // useEffect(() => {
+  //   const hello = auth.getCurrentUser().get("Projects");
+  //   hello.map((i) => {
+  //     console.log(i.Topic);
+  //   });
+  // }, [datasetSelector]);
 
-  const pickChoice = (choice) => {
-    setPickedData(--choice);
-  };
-
-  const setPickedData = (choice) => {
+  const setPickedData = () => {
     var path = results_path + paths[choice] + "/json_metadata.json";
     fetch(path)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        setChoice(choice);
       })
       .catch((err) => console.log(err));
   };
@@ -65,10 +69,14 @@ const Index = () => {
   var results = results_path + "results.json";
 
   return (
-    <Container className="main">
-      <MainNavbar title="Text Pipeline" />
+    <Container fluid className="impnavbar">
+      <MainNavbar />
       <Navigation data={keys} />
-      <DatasetSelector choice={pickChoice} results={results} />
+      <DatasetSelector
+        setDatasetSelector={setDatasetSelector}
+        datasetSelector={datasetSelector}
+      />
+      {console.log(datasetSelector)}
       {keys.includes("Data Diagnostic") ? (
         <DataPaths
           title="Data Diagnostic"

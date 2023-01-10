@@ -11,20 +11,19 @@ import {
 import "./style.css";
 import { MainNavbar } from "../../components";
 import { auth } from "services";
-import { home, results } from "services/paths";
+import { home, report } from "services/paths";
 const Curretuser = auth.getCurrentUser();
 
 const Dashboard = () => {
-  const [datas, setDatas] = useState(Curretuser.get("Projects"));
   const [pickproject, setPickproject] = useState(0);
-
+  const [statusColor, setStatusColor] = useState("");
   const [projectdata, setProjectData] = useState([
     {
       key: 1,
       name: "jacob",
       product: "Object Detection",
       createdtime: "28 aug 22",
-      status: "error",
+      status: "completed",
     },
     {
       key: 2,
@@ -38,7 +37,7 @@ const Dashboard = () => {
       name: "ookie",
       product: "Image",
       createdtime: "02 sep 22",
-      status: "pending",
+      status: "error",
     },
     {
       key: 4,
@@ -139,8 +138,20 @@ const Dashboard = () => {
       },
     ],
   ]);
+
+  const datas = Curretuser.get("Projects");
+
+  const color = ["#e32222", "#32e322", "#be534"];
+
   const projectTable = () => {
     return datas.map((val, i) => {
+      // if (projectdata[i]?.status === "completed") {
+      //   setStatusColor("#32e322");
+      // } else if (projectdata[i]?.status === "pending") {
+      //   setStatusColor("#ebe534");
+      // } else if (projectdata[i]?.status === "error") {
+      //   setStatusColor("#e32222");
+      // }
       return (
         <tr
           key={i}
@@ -149,8 +160,26 @@ const Dashboard = () => {
           }}
         >
           <td>{val?.Topic}</td>
-          <td>{projectdata[i]?.createdtime}</td>
-          <td>{projectdata[i]?.status}</td>
+          <td>{val?.date}</td>
+          <td
+            style={{
+              color:
+                projectdata[i]?.status === "completed"
+                  ? "#32e322"
+                  : projectdata[i]?.status === "error"
+                  ? "#e32222"
+                  : "#ebe534",
+            }}
+          >
+            {projectdata[i]?.status}
+          </td>
+          <td>
+            {projectdata[i]?.status === "completed" ? (
+              <Button onClick={() => (window.location = report)} size="sm">
+                View Report
+              </Button>
+            ) : null}
+          </td>
         </tr>
       );
     });
@@ -168,15 +197,15 @@ const Dashboard = () => {
       );
     });
   };
+
   return (
     <>
       <MainNavbar />
       <div style={{ margin: 40 }}>
-        <div className="page-header">
-          <h3 className="page-title"> Dashboard </h3>
-        </div>
+        <div className="page-header"></div>
         <Row>
-          <Col lg={6} className="grid-margin stretch-card">
+          <Col lg={6} className="projecttable grid-margin stretch-card">
+            <h3 className="page-title"> Dashboard </h3>
             <Card>
               <Card.Body>
                 <Card.Title>Project Tables</Card.Title>
@@ -206,7 +235,7 @@ const Dashboard = () => {
                 >
                   Start Building Project
                 </Button>
-                {infoprojectdata[pickproject] ? (
+                {/* {infoprojectdata[pickproject] ? (
                   <Button
                     style={{ float: "right" }}
                     onClick={() => {
@@ -215,12 +244,12 @@ const Dashboard = () => {
                   >
                     View Report
                   </Button>
-                ) : null}
+                ) : null} */}
               </Card.Body>
             </Card>
             <br />
           </Col>
-          <Col lg={6} className="grid-margin stretch-card">
+          {/* <Col lg={6} className="grid-margin stretch-card">
             <Card>
               <Card.Body>
                 <Card.Title>Information Tables</Card.Title>
@@ -246,7 +275,7 @@ const Dashboard = () => {
                 )}
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>

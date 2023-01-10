@@ -37,20 +37,23 @@ const Uploads = () => {
 
   var authData = CurrentUser ? CurrentUser.get("authData") : null;
   useEffect(() => {
+    if (auth.getCurrentUser()) {
+      console.log(auth.getCurrentUser());
+      return;
+    } else {
+      auth.ParseAnonymousUser();
+    }
+  }, []);
+  useEffect(() => {
     if (authData !== undefined && authData?.anonymous !== undefined) {
       console.log("Non Loginned User");
       setLoggineduser(false);
-    } else {
+    } else if (CurrentUser) {
       console.log("Loginned User");
       setLoggineduser(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (CurrentUser) {
-      console.log(CurrentUser);
     } else {
-      auth.ParseAnonymousUser();
+      console.log("anon user");
+      setLoggineduser(false);
     }
   }, []);
 

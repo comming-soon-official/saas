@@ -1,61 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
+import { auth } from "services";
 
-class Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuItems: null,
-      selectedItem: null,
-    };
-  }
-
-  componentWillMount() {
-    const { results } = this.props;
-    fetch(results)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          menuItems: data.results,
-        });
-      })
-      .catch((err) => console.log(err));
-  }
-
-  choiceSelect = (event) => {
-    const { choice } = this.props;
-    choice(event.target.attributes.getNamedItem("data-key").value);
-  };
-
-  render() {
-    const { menuItems } = this.state;
-    if (!menuItems) return null;
-    return (
-      <div className="row selector">
-        <div className="col-md-12">
-          <Dropdown
-            aria-label="Dataset Selector"
-            onClick={(e) => {
-              this.setState({ selectedItem: e.target.innerText });
-            }}
-          >
-            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              {this.state.selectedItem
-                ? this.state.selectedItem
-                : menuItems[0].toUpperCase()}
-            </Dropdown.Toggle>
-            <Dropdown.Menu onClick={this.choiceSelect}>
-              {menuItems.map((item, i) => (
-                <Dropdown.Item data-key={++i} key={i}>
-                  {item.toUpperCase()}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
+const Index = ({ datasetSelector, setDatasetSelector }) => {
+  const hello = auth.getCurrentUser().get("Projects");
+  return (
+    <div className="row selector">
+      <div className="col-md-12">
+        <Dropdown
+          aria-label="Dataset Selector"
+          onClick={(e) => {
+            setDatasetSelector(() => console.log(e.target.innerText));
+            return e.target.innerText;
+          }}
+        >
+          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+            {datasetSelector ? datasetSelector : hello[0].Topic.toUpperCase()}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {hello.map((item, i) => (
+              <Dropdown.Item data-key={++i} key={i}>
+                {item.Topic.toUpperCase()}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Index;
