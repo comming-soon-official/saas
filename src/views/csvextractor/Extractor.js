@@ -7,6 +7,8 @@ import Parse from "../../services/parseService";
 // import { MainNavbar } from "components";
 import { Container, NavDropdown } from "react-bootstrap";
 import { Button, Form, Tabs, Tab } from "react-bootstrap";
+import { v4 as uuidV4 } from "uuid";
+
 import { notification } from "antd";
 import { MainNavbar } from "components";
 import { dashboard } from "services/paths";
@@ -35,7 +37,6 @@ const Extractor = () => {
       },
     });
   }, []);
-
   const handleTargetSelect = (e) => {
     setTarget(e.target.value);
   };
@@ -49,11 +50,13 @@ const Extractor = () => {
 
   const handleRun = async () => {
     const project = {
-      id: window.self.crypto.randomUUID(),
-      Topic: projectTopic,
-      modal: projectmodal,
-      embedded: projectembedded,
+      id: uuidV4(),
+      topic: projectTopic,
+      // modal: projectmodal,
+      // embedded: projectembedded,
       date: date,
+      results: "",
+      status: "",
     };
 
     setTempobj((prev) => {
