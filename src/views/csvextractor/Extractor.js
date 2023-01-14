@@ -59,15 +59,6 @@ const Extractor = () => {
       status: "",
     };
 
-    setTempobj((prev) => {
-      const newState = [...(prev || []), project];
-
-      Currentuser.set("Projects", newState);
-      Currentuser.save();
-
-      return newState;
-    });
-
     const res = await fetch("http://127.0.0.1:12345/tags", {
       method: "POST",
       mode: "cors",
@@ -84,6 +75,14 @@ const Extractor = () => {
     });
 
     if (res.status === 200) {
+      setTempobj((prev) => {
+        const newState = [...(prev || []), project];
+
+        Currentuser.set("Projects", newState);
+        Currentuser.save();
+
+        return newState;
+      });
       console.log("data updated successfully");
     }
 
