@@ -43,20 +43,23 @@ const MainNavbar = ({ logout }) => {
             alignItems: "center",
           }}
         >
-          <Navbar.Brand
-            href="#home"
-            style={{ marginLeft: "10px", marginTop: "-10px" }}
-          >
+          <Navbar.Brand href="#home" style={{ marginLeft: "10px" }}>
             <Link to={home}>
               <img src={Images.logo} width="120" alt="logo" />
             </Link>
           </Navbar.Brand>
           <Nav style={{ marginTop: "5px" }} className="me-auto">
+            {/* <ul className="Navitems me-auto">
+            <li>Partners</li>
+            <li>Contact Us</li>
+            <li>Clients</li>
+            <li>About Us</li>
+          </ul> */}
             {/* <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link> */}
           </Nav>
-          <Col style={{ marginTop: "-3px" }} xs={1}>
+          <Col xs={1}>
             <Dropdown className="dropdown">
               <Dropdown.Toggle className="myButton" id="profile-menu">
                 <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>

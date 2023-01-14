@@ -138,16 +138,18 @@ const Extractor = () => {
                       <Form.Label>Enter Row ID</Form.Label>
                       <Form.Control
                         onChange={SelectRows}
-                        type="email"
+                        type="number"
                         placeholder="Eg: 6"
+                        value={CSVRow}
                       />
                     </Tab>
                     <Tab eventKey="row" title="Row Text">
                       <Form.Label>Enter Row Text</Form.Label>
                       <Form.Control
                         onChange={SelectRows}
-                        type="email"
+                        type="text"
                         placeholder="Eg: Gramite"
+                        value={CSVRow}
                       />
                     </Tab>
                   </Tabs>

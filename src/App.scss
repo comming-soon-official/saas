@@ -30,7 +30,9 @@ li,
 span {
   color: var(--text);
 }
-
+.border{
+  border: var(--border) solid var(--content) !important;
+}
 
 .formbackground {
   background-image: url("./images/AuthBG.jpg");

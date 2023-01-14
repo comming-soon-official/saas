@@ -61,7 +61,29 @@
   }
 }
 .ModalButton {
-  width: 300px;
-  margin-left: 35%;
-  margin-top: 30px;
+  width: 250px;
+  margin : 20px 0px 0px 10px;
+ 
+}
+.Navitems>li:hover{
+background-color: #a03c64;
+color: white;
+border-radius: 10px;
+
+}
+.Navitems>li{
+  font-size: 14px;
+  font-weight: 700;
+  color: #353535;
+  list-style: none ;
+  margin-top: 25px;
+  margin-right: 40px;
+  cursor: pointer;
+  padding: 5px 15px;
+  border-bottom: 1px solid #a03c64;
+  transition: 0.4s;
+}
+.Navitems{
+  display: flex;
+
 }

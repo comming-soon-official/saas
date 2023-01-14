@@ -151,36 +151,19 @@ span {
   margin-right: -30px;
 }
 
-.draggerbox {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  /* width: 500px;
-  height: 300px; */
-}
-.filecomponentbox {
-  display: flex;
-  flex-direction: row;
-  float: left;
-}
-.fileuploadbox {
-  height: 200px;
-  width: 250px;
-  margin: 20px;
+.uploadbox {
+  height: 180px !important;
+  width: 250px !important;
+  /* margin-left: 10px; */
 }
 .ant-upload-list-item-card-actions {
   display: none;
 }
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 720px) {
   .filecomponentbox {
-    /* display: initial; */
-    /* display: none; */
-    /* flex-direction: column; */
+
     flex-wrap: wrap;
-    /* float: left; */
-    /* width: 500px;
-    height: 300px; */
+
   }
   .fileuploadbox {
     height: 200px;
@@ -190,8 +173,14 @@ span {
   .progressposition {
     margin-left: 60px !important;
   }
+} */
+
+.section1{
+  justify-content: center;
+  align-items: center;
 }
-.progressposition {
-  margin-left: 45%;
-  margin-top: 35%;
+.progressposition{
+  width: 73%;
+  margin-left: -10px;
+
 }
