@@ -72,21 +72,24 @@ const Extractor = () => {
         userid: Currentuser.id,
         Row: CSVRow,
       }),
-    });
-
-    if (res.status === 200) {
-      setTempobj((prev) => {
-        const newState = [...(prev || []), project];
-
-        Currentuser.set("Projects", newState);
-        Currentuser.save();
-
-        return newState;
+    })
+      .then((res) => {
+        setTempobj((prev) => {
+          const newState = [...(prev || []), project];
+          Currentuser.set("Projects", newState);
+          Currentuser.save().then((res) => {
+            console.log(res);
+          });
+          return newState;
+        });
+      })
+      .then(() => {
+        console.log("data updated successfully");
+        window.location = dashboard;
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-      console.log("data updated successfully");
-    }
-
-    window.location = dashboard;
   };
 
   return (

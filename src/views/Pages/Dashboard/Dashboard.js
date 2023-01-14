@@ -17,36 +17,41 @@ const Curretuser = auth.getCurrentUser();
 const Dashboard = () => {
   const [pickproject, setPickproject] = useState(0);
   const [statusColor, setStatusColor] = useState("");
-  const [projectdata, setProjectData] = useState([
-    {
-      key: 1,
-      name: "jacob",
-      product: "Object Detection",
-      createdtime: "28 aug 22",
-      status: "completed",
-    },
-    {
-      key: 2,
-      name: "fine",
-      product: "photo",
-      createdtime: "10 aug 22",
-      status: "pending",
-    },
-    {
-      key: 3,
-      name: "ookie",
-      product: "Image",
-      createdtime: "02 sep 22",
-      status: "error",
-    },
-    {
-      key: 4,
-      name: "heydude",
-      product: "Video",
-      createdtime: "20 sep 22",
-      status: "completed",
-    },
-  ]);
+  const [datas, setDatas] = useState(null);
+  useEffect(() => {
+    setDatas(() => Curretuser.get("Projects"));
+  }, [datas]);
+
+  // const [projectdata, setProjectData] = useState([
+  //   {
+  //     key: 1,
+  //     name: "jacob",
+  //     product: "Object Detection",
+  //     createdtime: "28 aug 22",
+  //     status: "completed",
+  //   },
+  //   {
+  //     key: 2,
+  //     name: "fine",
+  //     product: "photo",
+  //     createdtime: "10 aug 22",
+  //     status: "pending",
+  //   },
+  //   {
+  //     key: 3,
+  //     name: "ookie",
+  //     product: "Image",
+  //     createdtime: "02 sep 22",
+  //     status: "error",
+  //   },
+  //   {
+  //     key: 4,
+  //     name: "heydude",
+  //     product: "Video",
+  //     createdtime: "20 sep 22",
+  //     status: "completed",
+  //   },
+  // ]);
 
   const [infoprojectdata, setInfoProjectData] = useState([
     [
@@ -139,8 +144,6 @@ const Dashboard = () => {
     ],
   ]);
 
-  const datas = Curretuser.get("Projects");
-
   const color = ["#e32222", "#32e322", "#be534"];
 
   const projectTable = () => {
@@ -159,22 +162,24 @@ const Dashboard = () => {
             setPickproject(i);
           }}
         >
-          <td>{val?.Topic}</td>
+          <td>{val?.topic}</td>
           <td>{val?.date}</td>
           <td
             style={{
               color:
-                projectdata[i]?.status === "completed"
+                val?.status === "completed"
                   ? "#32e322"
-                  : projectdata[i]?.status === "error"
+                  : val?.status === "error"
                   ? "#e32222"
-                  : "#ebe534",
+                  : val?.status === "pending"
+                  ? "#ebe534"
+                  : "#000",
             }}
           >
-            {projectdata[i]?.status}
+            {val?.status ? val.status : "null"}
           </td>
           <td>
-            {projectdata[i]?.status === "completed" ? (
+            {val?.status === "completed" ? (
               <Button onClick={() => (window.location = report)} size="sm">
                 View Report
               </Button>
@@ -204,38 +209,40 @@ const Dashboard = () => {
       <div style={{ margin: 40 }}>
         <div className="page-header"></div>
         <Row>
-          <Col lg={6} className="projecttable grid-margin stretch-card">
+          <Col
+          // lg={6} className="projecttable grid-margin stretch-card"
+          >
             <h3 className="page-title"> Dashboard </h3>
-            <Card>
+            {/* <Card>
               <Card.Body>
                 <Card.Title>Project Tables</Card.Title>
                 <Card.Text>
                   <code>List of projects</code>
-                </Card.Text>
-                {datas ? (
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Project Name</th>
-                          <th>Execution Date</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>{projectTable()}</tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <h1>No Projects Available</h1>
-                )}
-                <Button
-                  onClick={() => {
-                    window.location = home;
-                  }}
-                >
-                  Start Building Project
-                </Button>
-                {/* {infoprojectdata[pickproject] ? (
+                </Card.Text> */}
+            {datas ? (
+              <div className="table-responsive">
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Project Name</th>
+                      <th>Execution Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>{projectTable()}</tbody>
+                </table>
+              </div>
+            ) : (
+              <h1>No Projects Available</h1>
+            )}
+            <Button
+              onClick={() => {
+                window.location = home;
+              }}
+            >
+              Start Building Project
+            </Button>
+            {/* {infoprojectdata[pickproject] ? (
                   <Button
                     style={{ float: "right" }}
                     onClick={() => {
@@ -245,8 +252,8 @@ const Dashboard = () => {
                     View Report
                   </Button>
                 ) : null} */}
-              </Card.Body>
-            </Card>
+            {/* </Card.Body>
+            </Card> */}
             <br />
           </Col>
           {/* <Col lg={6} className="grid-margin stretch-card">

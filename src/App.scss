@@ -68,6 +68,7 @@ span {
 .card-body {
   background-color: var(--bgColor);
   border: 1px solid var(--content);
+  
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
@@ -83,7 +84,7 @@ span {
 }
 
 .card {
-  border: 0px solid var(--content);
+  border: 0px solid var(--content) ;
 }
 
 select#formGridState {
