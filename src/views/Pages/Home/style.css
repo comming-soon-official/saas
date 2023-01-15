@@ -103,3 +103,10 @@ text-align: center;
     cursor: inherit;
     display: block;
 }
+.progressbarsection{
+    width: 80%;
+    margin-left: 30px;
+}
+.progressbarsection>p{
+    margin-left: 10px;
+}

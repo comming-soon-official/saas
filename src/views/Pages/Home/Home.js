@@ -7,14 +7,33 @@ import Twitter from "assets/svg/Twitter";
 import Youtube from "assets/svg/Youtube";
 import Gmail from "assets/svg/Gmail.svg";
 import { MainNavbar } from "components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Uploads from "views/FileUploader/Uploads";
 import "./style.css";
 import { auth } from "services";
+import ComponentModal from "components/Modal";
+import { Progress } from "antd";
 const Home = () => {
   const [progress, setProgress] = useState(0);
   const [filenmae, setFilename] = useState("");
+  const [loggineduser, setLoggineduser] = useState(null);
+
+  var CurrentUser = auth.getCurrentUser();
+
+  var authData = CurrentUser ? CurrentUser.get("authData") : null;
+  useEffect(() => {
+    if (authData !== undefined && authData?.anonymous !== undefined) {
+      console.log("Non Loginned User");
+      setLoggineduser(false);
+    } else if (CurrentUser) {
+      console.log("Loginned User");
+      setLoggineduser(true);
+    } else {
+      console.log("anon user");
+      setLoggineduser(false);
+    }
+  }, []);
 
   return (
     <div>
@@ -41,25 +60,47 @@ const Home = () => {
               >
                 Testing Suite For AI/ML Products.{" "}
               </p>
-              <Button className="StartProjectbtn">
-                Start With Uploading Dataset
-                <FontAwesomeIcon
-                  style={{ marginLeft: 10, marginBottom: -3 }}
-                  icon={faArrowRight}
+              {progress >= 1 && progress <= 2 ? (
+                <Button className="StartProjectbtn">
+                  Uploading Please Wait ...
+                </Button>
+              ) : progress === 100 ? (
+                <ComponentModal
+                  loggineduser={loggineduser}
+                  className="modalswitchbutton"
                 />
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    setProgress(0);
-                    setFilename(e.target.files[0].name);
-                    auth.FileuploadModal(e.target.files[0]).then((data) => {
-                      setProgress(data);
-                    });
-                  }}
-                  className="inputfile"
-                />
-              </Button>
-              <p style={{ marginLeft: 50, color: "green" }}>{filenmae}</p>
+              ) : (
+                <Button className="StartProjectbtn">
+                  Start With Uploading Dataset
+                  <FontAwesomeIcon
+                    style={{ marginLeft: 10, marginBottom: -3 }}
+                    icon={faArrowRight}
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      setProgress(1);
+                      setFilename(e.target.files[0].name);
+                      auth.FileuploadModal(e.target.files[0]).then((data) => {
+                        setProgress(data);
+                      });
+                    }}
+                    className="inputfile"
+                  />
+                </Button>
+              )}
+              <div className="progressbarsection">
+                <p style={{ color: "green" }}>{filenmae}</p>
+                <br />
+                {progress ? (
+                  <Progress
+                    percent={progress}
+                    format={(percent) => `${percent + "%"}`}
+                  />
+                ) : null}
+              </div>
+              <br />
+              <br />
             </Col>
             <Col>
               <div className="uploads">

@@ -171,7 +171,7 @@ const ComponentModal = ({ loggineduser }) => {
     <>
       <Button
         // style={{ width: "300px", marginLeft: "300px", marginTop: "30px" }}
-        className="myButton ModalButton"
+        className="StartProjectbtn"
         onClick={() => {
           showModal();
         }}

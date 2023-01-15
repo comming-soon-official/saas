@@ -87,3 +87,10 @@ border-radius: 10px;
   display: flex;
 
 }
+.StartProjectbtn{
+  border-radius:30px ;
+  font-size: xx-large;
+  width: 550px;
+  height: 70px;
+  margin: 20px;
+}

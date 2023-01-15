@@ -67,8 +67,8 @@ const Extractor = () => {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        target: target,
-        destination: destination,
+        input_col: target,
+        target_col: destination,
         userid: Currentuser.id,
         Row: CSVRow,
       }),

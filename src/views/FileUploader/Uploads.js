@@ -11,32 +11,18 @@ import MainNavbar from "../../components/Navbar";
 import "./Uploader.css";
 import "../../App.scss";
 
-var CurrentUser = auth.getCurrentUser();
 const Uploads = ({ setProgress, progress }) => {
-  const [loggineduser, setLoggineduser] = useState(null);
   var CurrentUser = auth.getCurrentUser();
   useEffect(() => {
     console.log(progress);
   }, [progress]);
-  var authData = CurrentUser ? CurrentUser.get("authData") : null;
+
   useEffect(() => {
     if (auth.getCurrentUser()) {
       console.log(auth.getCurrentUser());
       return;
     } else {
       auth.ParseAnonymousUser();
-    }
-  }, []);
-  useEffect(() => {
-    if (authData !== undefined && authData?.anonymous !== undefined) {
-      console.log("Non Loginned User");
-      setLoggineduser(false);
-    } else if (CurrentUser) {
-      console.log("Loginned User");
-      setLoggineduser(true);
-    } else {
-      console.log("anon user");
-      setLoggineduser(false);
     }
   }, []);
 
@@ -46,19 +32,20 @@ const Uploads = ({ setProgress, progress }) => {
   };
 
   const onFileChangeDataset = (file) => {
-    setProgress(0);
+    setProgress(1);
+
     auth.FileuploadDataset(file).then((data) => {
       setProgress(data);
     });
   };
   const onFileChangeModal = (file) => {
-    setProgress(0);
+    setProgress(1);
     auth.FileuploadModal(file).then((data) => {
       setProgress(data);
     });
   };
   const onFileChangeEmbedded = (file) => {
-    setProgress(0);
+    setProgress(1);
     auth.FileuploadEmbedded(file).then((data) => {
       setProgress(data);
     });
@@ -122,22 +109,7 @@ const Uploads = ({ setProgress, progress }) => {
               <p>Upload Embedded Support file (Optional) </p>
             </Upload.Dragger>
           </div>
-          <div>
-            {progress ? (
-              <div className="section1">
-                <div className="progressposition">
-                  <Progress
-                    percent={progress}
-                    format={(percent) => `${percent + "%"}`}
-                  />
-                  <ComponentModal
-                    loggineduser={loggineduser}
-                    className="modalswitchbutton"
-                  />
-                </div>
-              </div>
-            ) : null}
-          </div>
+          <div></div>
         </Stack>
       </div>
     </div>

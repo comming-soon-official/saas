@@ -155,7 +155,7 @@ export const FileuploadDataset = (file) => {
     .save({
       progress: (value) => {
         roundvalue = Math.round(value * 100);
-        // console.log(roundvalue);
+        console.log(roundvalue);
       },
     })
     .then((res) => {
