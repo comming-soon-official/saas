@@ -25,7 +25,7 @@ const ComponentModal = ({ loggineduser }) => {
   const [topic, setTopic] = useState("");
   const [password, setPassowrd] = useState("");
   let navigate = useNavigate();
-
+  const userid = auth.getCurrentUser()?.id;
   // let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
   useEffect(() => {
     console.log(loggineduser);
@@ -109,7 +109,7 @@ const ComponentModal = ({ loggineduser }) => {
         .save()
         .then(() => {
           setIsModalVisible(false);
-          window.location = `/${auth.getCurrentUser().id}/tags`;
+          window.location = `/${userid}/tags`;
         })
         .catch((error) => {
           notification["error"]({
@@ -140,7 +140,7 @@ const ComponentModal = ({ loggineduser }) => {
           Parse.User.logIn(email, password)
             .then((res) => {
               console.log(res);
-              window.location = `/${auth.getCurrentUser().id}/tags`;
+              window.location = `/${userid}/tags`;
 
               // auth.sendEmail();
               setIsModalVisible(false);

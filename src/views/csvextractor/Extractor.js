@@ -30,6 +30,7 @@ const Extractor = () => {
   const projectTopic = Currentuser.get("topic") ? Currentuser.get("topic") : "";
 
   useEffect(() => {
+    console.log(Currentuser.get("dataset"));
     Papa.parse(Currentuser.get("dataset"), {
       download: true,
       complete: function (data) {
@@ -59,7 +60,7 @@ const Extractor = () => {
       status: "",
     };
 
-    const res = await fetch("http://127.0.0.1:12345/tags", {
+    const res = await fetch("http://127.0.0.1:5001/tags", {
       method: "POST",
       mode: "cors",
       headers: {

@@ -23,6 +23,15 @@ const Home = () => {
 
   var authData = CurrentUser ? CurrentUser.get("authData") : null;
   useEffect(() => {
+    if (auth.getCurrentUser()) {
+      console.log(auth.getCurrentUser());
+      return;
+    } else {
+      auth.ParseAnonymousUser();
+    }
+  }, []);
+
+  useEffect(() => {
     if (authData !== undefined && authData?.anonymous !== undefined) {
       console.log("Non Loginned User");
       setLoggineduser(false);
@@ -35,6 +44,14 @@ const Home = () => {
     }
   }, []);
 
+  const handleFileInputChange = (e) => {
+    setProgress(1);
+    let filename = e.target.files[0];
+    setFilename(filename.name);
+    auth.FileuploadDataset(filename).then((data) => {
+      setProgress(data);
+    });
+  };
   return (
     <div>
       <MainNavbar />
@@ -78,13 +95,7 @@ const Home = () => {
                   />
                   <input
                     type="file"
-                    onChange={(e) => {
-                      setProgress(1);
-                      setFilename(e.target.files[0].name);
-                      auth.FileuploadModal(e.target.files[0]).then((data) => {
-                        setProgress(data);
-                      });
-                    }}
+                    onChange={handleFileInputChange}
                     className="inputfile"
                   />
                 </Button>

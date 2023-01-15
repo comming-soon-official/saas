@@ -1,0 +1,4 @@
+{
+  "SERVER_URL": "http://localhost:3030/parse",
+  "EMAIL_DOMAIN": "testaing.com"
+}

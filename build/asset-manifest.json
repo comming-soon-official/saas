@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6d101f10.css",
+    "main.js": "/static/js/main.b397343d.js",
+    "static/js/496.e004245e.chunk.js": "/static/js/496.e004245e.chunk.js",
+    "static/media/saasaiensured.png": "/static/media/saasaiensured.cb3ee2ca150481bc57ea.png",
+    "static/media/aiensuredbig.png": "/static/media/aiensuredbig.7785fc80d0e99d06e8d9.png",
+    "static/media/axios.cjs": "/static/media/axios.862815d8cfee7fa80dee.cjs",
+    "static/media/AuthBG.jpg": "/static/media/AuthBG.ec2485e4ddded9576b06.jpg",
+    "static/media/double-bubble.png": "/static/media/double-bubble.2a64f86f53c1f8093a82.png",
+    "static/media/testailogo.png": "/static/media/testailogo.cf95dcf9af3668a0dff8.png",
+    "index.html": "/index.html",
+    "static/media/Gmail.svg": "/static/media/Gmail.5448011813df5fe5e79607fe18d333cc.svg",
+    "main.6d101f10.css.map": "/static/css/main.6d101f10.css.map",
+    "main.b397343d.js.map": "/static/js/main.b397343d.js.map",
+    "496.e004245e.chunk.js.map": "/static/js/496.e004245e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d101f10.css",
+    "static/js/main.b397343d.js"
+  ]
+}

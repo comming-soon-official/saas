@@ -17,15 +17,6 @@ const Uploads = ({ setProgress, progress }) => {
     console.log(progress);
   }, [progress]);
 
-  useEffect(() => {
-    if (auth.getCurrentUser()) {
-      console.log(auth.getCurrentUser());
-      return;
-    } else {
-      auth.ParseAnonymousUser();
-    }
-  }, []);
-
   const logout = () => {
     Parse.User.logOut();
     window.location = "/login";
