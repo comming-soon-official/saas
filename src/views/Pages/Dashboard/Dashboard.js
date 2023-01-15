@@ -176,7 +176,7 @@ const Dashboard = () => {
                   : "#000",
             }}
           >
-            {val?.status ? val.status : "null"}
+            {val?.status ? val.status : "waiting"}
           </td>
           <td>
             {val?.status === "completed" ? (
