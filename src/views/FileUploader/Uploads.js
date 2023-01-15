@@ -12,12 +12,12 @@ import "./Uploader.css";
 import "../../App.scss";
 
 var CurrentUser = auth.getCurrentUser();
-const Uploads = () => {
-  const [progress, setProgress] = useState(0);
+const Uploads = ({ setProgress, progress }) => {
   const [loggineduser, setLoggineduser] = useState(null);
-
   var CurrentUser = auth.getCurrentUser();
-
+  useEffect(() => {
+    console.log(progress);
+  }, [progress]);
   var authData = CurrentUser ? CurrentUser.get("authData") : null;
   useEffect(() => {
     if (auth.getCurrentUser()) {

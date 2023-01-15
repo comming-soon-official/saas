@@ -7,11 +7,15 @@ import Twitter from "assets/svg/Twitter";
 import Youtube from "assets/svg/Youtube";
 import Gmail from "assets/svg/Gmail.svg";
 import { MainNavbar } from "components";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Uploads from "views/FileUploader/Uploads";
 import "./style.css";
+import { auth } from "services";
 const Home = () => {
+  const [progress, setProgress] = useState(0);
+  const [filenmae, setFilename] = useState("");
+
   return (
     <div>
       <MainNavbar />
@@ -37,18 +41,29 @@ const Home = () => {
               >
                 Testing Suite For AI/ML Products.{" "}
               </p>
-
               <Button className="StartProjectbtn">
                 Start With Uploading Dataset
                 <FontAwesomeIcon
                   style={{ marginLeft: 10, marginBottom: -3 }}
                   icon={faArrowRight}
                 />
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setProgress(0);
+                    setFilename(e.target.files[0].name);
+                    auth.FileuploadModal(e.target.files[0]).then((data) => {
+                      setProgress(data);
+                    });
+                  }}
+                  className="inputfile"
+                />
               </Button>
+              <p style={{ marginLeft: 50, color: "green" }}>{filenmae}</p>
             </Col>
             <Col>
               <div className="uploads">
-                <Uploads />
+                <Uploads setProgress={setProgress} progress={progress} />
               </div>
             </Col>
           </Row>
