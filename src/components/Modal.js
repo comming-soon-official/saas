@@ -64,7 +64,7 @@ const ComponentModal = ({ loggineduser }) => {
   ];
 
   const newstep = !loggineduser ? steps : steps2;
-  console.log(newstep);
+  // console.log(newstep);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -139,7 +139,7 @@ const ComponentModal = ({ loggineduser }) => {
         .then(() => {
           Parse.User.logIn(email, password)
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               window.location = `/${userid}/tags`;
 
               // auth.sendEmail();
@@ -157,7 +157,7 @@ const ComponentModal = ({ loggineduser }) => {
             duration: 5,
           });
         });
-      console.log(email, password);
+      // console.log(email, password);
     } else {
       notification["error"]({
         message: "Error",

@@ -95,6 +95,7 @@ const Home = () => {
                   />
                   <input
                     type="file"
+                    accept=".csv"
                     onChange={handleFileInputChange}
                     className="inputfile"
                   />

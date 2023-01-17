@@ -60,7 +60,7 @@ const Extractor = () => {
       status: "",
     };
 
-    const res = await fetch("http://127.0.0.1:5001/tags", {
+    const res = await fetch("http://13.233.122.188:5001/tags", {
       method: "POST",
       mode: "cors",
       headers: {
