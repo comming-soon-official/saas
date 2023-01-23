@@ -88,11 +88,12 @@ border-radius: 10px;
 
 }
 .StartProjectbtn{
+  
   border-radius:30px ;
   font-size: xx-large;
-  width: 550px;
+  width: 650px !important;
   height: 70px;
-  margin: 20px;
+  margin: 25px !important;
 }
 .modalnxtbtn{
   width: 81%;

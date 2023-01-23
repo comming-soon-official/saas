@@ -8,7 +8,7 @@ import Instagram from "assets/svg/Instagram";
 import Linkdin from "assets/svg/Linkdin";
 import Twitter from "assets/svg/Twitter";
 import Youtube from "assets/svg/Youtube";
-import Gmail from "assets/svg/Gmail.svg";
+import Gmail from "assets/svg/Gmail.js";
 import { MainNavbar } from "components";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
@@ -29,6 +29,7 @@ const Home = () => {
     },
     { key: 2, progressbar: 0, completed: false },
     { key: 3, progressbar: 0, completed: false },
+    { key: 4, progressbar: 0, completed: false },
   ]);
 
   const [filenmae, setFilename] = useState("");
@@ -61,35 +62,20 @@ const Home = () => {
       setLoggineduser(false);
     }
   }, []);
-
-  const handleFileInputChange = (e) => {
-    setAllProgress((prev) => {
-      const newState = [...prev];
-      newState[0].showdataset = false;
-      newState[0].btnloading = true;
-      newState[0].progressbar = 1;
-
-      return newState;
-    });
-    let filename = e.target.files[0];
-    setFilename(filename.name);
-    auth.FileuploadDataset(filename, "dataset").then((data) => {
-      setAllProgress((prev) => {
-        const newState = [...prev];
-        newState[0].progressbar = data;
-        return newState;
-      });
-      if (data) {
-        console.log("hello");
-      }
-    });
-  };
+  console.log(window.innerHeight + window.scrollY);
   return (
     <div>
       <MainNavbar />
       <br />
       <br />
       <Container>
+        <img
+          className="mousescroll"
+          src={require("assets/scroll-down.gif")}
+          alt=""
+          srcset=""
+        />
+
         <div>
           <Row className="">
             {/* <h1 className="contentheading">
@@ -109,39 +95,34 @@ const Home = () => {
               >
                 Testing Suite For AI/ML Products.{" "}
               </p>
-              {allProgress[0].btnloading ? (
-                <Button className="StartProjectbtn">
-                  {allProgress[0].completed
-                    ? " Uploading Please Wait ..."
-                    : "Waiting For ModalFile to Upload"}
-                </Button>
-              ) : allProgress[0].progressbar === 100 &&
-                allProgress[1].progressbar === 100 ? (
+              {allProgress[0].progressbar === 100 &&
+              allProgress[1].progressbar === 100 ? null : (
+                <div className="startuploadtag">
+                  <h1>
+                    {allProgress[0].completed
+                      ? "Upload the Modal File"
+                      : "Start With Uploading Dataset"}
+                    <FontAwesomeIcon
+                      style={{ marginLeft: 10, marginBottom: -3 }}
+                      icon={faArrowRight}
+                    />
+                  </h1>
+                </div>
+              )}
+
+              {allProgress[0].progressbar === 100 &&
+              allProgress[1].progressbar === 100 ? (
                 <ComponentModal
                   loggineduser={loggineduser}
                   className="modalswitchbutton"
                 />
-              ) : (
-                <Button className="StartProjectbtn">
-                  Start With Uploading Dataset
-                  <FontAwesomeIcon
-                    style={{ marginLeft: 10, marginBottom: -3 }}
-                    icon={faArrowRight}
-                  />
-                  <input
-                    type="file"
-                    accept=".csv"
-                    onChange={handleFileInputChange}
-                    className="inputfile"
-                  />
-                </Button>
-              )}
+              ) : null}
               <div className="progressbarsection">
                 <p style={{ color: "green" }}>{filenmae}</p>
                 <br />
-                {allProgress[0].progressbar ? (
+                {allProgress[3].progressbar ? (
                   <Progress
-                    percent={allProgress[0].progressbar}
+                    percent={allProgress[3].progressbar}
                     format={(percent) => `${percent + "%"}`}
                   />
                 ) : null}
@@ -196,11 +177,11 @@ const Home = () => {
           <hr />
           <Row className="section1">
             <Col>
-              <img
+              {/* <img
                 src="https://cdn3d.iconscout.com/3d/free/thumb/dashboard-growth-5380686-4497645.png"
                 alt=""
-              />
-              {/* <video
+              /> */}
+              <video
                 loading="lazy"
                 muted="muted"
                 type="video/mp4"
@@ -210,7 +191,7 @@ const Home = () => {
                 height="450"
                 src="https://cdnl.iconscout.com/lottie/premium/thumb/man-monitoring-dashboard-3571542-3025939.mp4?modified_at=1619166692"
                 alt=""
-              /> */}
+              />
             </Col>
             <Col>
               <h1 className="contentheading">Who Knows</h1>
@@ -296,7 +277,7 @@ const Home = () => {
                       style={{ marginLeft: 5 }}
                     >
                       {" "}
-                      <Youtube className="newsletterlogo" />
+                      <Gmail className="newsletterlogo" />
                     </Button>
                   </div>
                 </Form>

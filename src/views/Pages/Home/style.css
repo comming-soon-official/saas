@@ -110,3 +110,61 @@ text-align: center;
 .progressbarsection>p{
     margin-left: 10px;
 }
+.startuploadtag{
+    text-align: center;
+    color: #a03c64;
+    margin-left: 30px;
+    margin-right: 100px;
+    /* border-radius: 30px; */
+    border-bottom: #a03c64 1px solid;
+    padding-top: 20px;
+    display: block;
+    position: relative;
+}
+.startuploadtag>h1{
+    color: #000000;
+}
+.startuploadtag::after {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 0;
+    border-radius: 30px;
+
+  }
+  
+  .startuploadtag:hover:after {
+    width: 100%;
+    /* border-radius: 30px; */
+
+  }
+  .startuploadtag,
+.startuploadtag::after {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  /* border-radius: 30px; */
+
+}
+
+
+
+.startuploadtag::before,
+.startuploadtag::after {
+  background: #a03c64;
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+.startuploadtag:hover{
+        border-radius: 30px;
+
+}
+
+.mousescroll{
+    width: 70px;
+    position: fixed;
+    left: 5%;
+    bottom: 10%;
+}

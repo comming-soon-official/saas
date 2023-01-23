@@ -30,12 +30,18 @@ const Uploads = ({ setAllProgress, allProgress }) => {
             const newState = [...prev];
             if (dbname === "dataset") {
               newState[0].progressbar = roundvalue;
+              newState[0].completed = true;
+
               return newState;
             } else if (dbname === "modal") {
               newState[1].progressbar = roundvalue;
+              newState[1].completed = true;
+
               return newState;
             } else if (dbname === "embedded") {
               newState[2].progressbar = roundvalue;
+              newState[2].completed = true;
+
               return newState;
             }
             return newState;
@@ -113,9 +119,11 @@ const Uploads = ({ setAllProgress, allProgress }) => {
             <div>
               <Upload.Dragger
                 accept=".csv"
+                multiple={true}
                 name="file"
                 className="uploadbox"
                 showUploadList={true}
+                maxCount={1}
                 beforeUpload={(file) => onFileChangeDataset(file, "dataset")}
               >
                 <img
@@ -127,9 +135,9 @@ const Uploads = ({ setAllProgress, allProgress }) => {
 
                 {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
                 <p>
-                  {!allProgress[0].completed
-                    ? "Upload your Dataset"
-                    : "Click to Reupload Dataset"}
+                  {allProgress[0].completed
+                    ? "(Click to Reupload Dataset)"
+                    : "Upload your Dataset"}
                 </p>
               </Upload.Dragger>
 
@@ -144,9 +152,12 @@ const Uploads = ({ setAllProgress, allProgress }) => {
           ) : null}
           <div>
             <Upload.Dragger
+              accept=".csv"
+              multiple={true}
               name="file"
               className="uploadbox"
               showUploadList={true}
+              maxCount={1}
               beforeUpload={(file) => onFileChangeDataset(file, "modal")}
             >
               <img
@@ -157,7 +168,12 @@ const Uploads = ({ setAllProgress, allProgress }) => {
               />
               {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
 
-              <p>Upload Your Modal (Optional) </p>
+              <p>
+                {" "}
+                {allProgress[1].completed
+                  ? "(Click to Reupload Modal)"
+                  : " Upload Your Modal"}
+              </p>
             </Upload.Dragger>
             {allProgress[1].progressbar ? (
               <Progress
@@ -169,9 +185,12 @@ const Uploads = ({ setAllProgress, allProgress }) => {
           </div>
           <div>
             <Upload.Dragger
+              accept=".csv"
+              multiple={true}
               name="file"
               className="uploadbox"
               showUploadList={true}
+              maxCount={1}
               beforeUpload={(file) => onFileChangeDataset(file, "embedded")}
             >
               <img
@@ -182,7 +201,12 @@ const Uploads = ({ setAllProgress, allProgress }) => {
               />
               {/* <p className="ant-upload-text">Click or drag file to Upload</p> */}
 
-              <p>Upload Embedded Support file (Optional) </p>
+              <p>
+                {" "}
+                {allProgress[1].completed
+                  ? "(Click to Reupload Embedded file)"
+                  : "Upload Embedded Support file (Optional)"}
+              </p>
             </Upload.Dragger>
             {allProgress[2].progressbar ? (
               <Progress
