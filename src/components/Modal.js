@@ -151,11 +151,30 @@ const ComponentModal = ({ loggineduser }) => {
         })
 
         .catch((error) => {
-          notification["error"]({
-            message: "Error",
-            description: error.message,
-            duration: 5,
-          });
+          if (error.message === "Account already exists for this username.") {
+            Parse.User.logIn(email, password)
+              .then((res) => {
+                console.log(res);
+                // console.log(res);
+                window.location = `/${res.id}/tags`;
+
+                // auth.sendEmail();
+                setIsModalVisible(false);
+              })
+              .catch((error) => {
+                notification["error"]({
+                  message: "Error",
+                  description: `Already have an account on this Email but ${error.message}`,
+                  duration: 5,
+                });
+              });
+          } else {
+            notification["error"]({
+              message: "Error",
+              description: `${error.message}`,
+              duration: 5,
+            });
+          }
         });
       // console.log(email, password);
     } else {
@@ -176,7 +195,7 @@ const ComponentModal = ({ loggineduser }) => {
           showModal();
         }}
       >
-        Proceed
+        Click to Proceed
       </Button>
       <Modal
         title="Aiensured"
@@ -208,7 +227,7 @@ const ComponentModal = ({ loggineduser }) => {
           {current < newstep.length - 1 && (
             <Button
               // disabled={disabled}
-              className="myButton"
+              className="modalnxtbtn myButton"
               onClick={() => next()}
             >
               Next
@@ -216,7 +235,11 @@ const ComponentModal = ({ loggineduser }) => {
           )}
           {current === newstep.length - 1 && (
             <Button
-              className="myButton"
+              className={`${
+                current > 0
+                  ? "modaldonebtn myButton"
+                  : "modalfinishbtn myButton"
+              } `}
               onClick={() => (!loggineduser ? WithoutLoginDone() : LoginDone())}
               // onClick={() => WithoutLoginDone()}
               // onSubmit={afterDone}
@@ -226,7 +249,7 @@ const ComponentModal = ({ loggineduser }) => {
           )}
           {current > 0 && (
             <Button
-              className="myButton"
+              className="modaldonebtn myButton"
               style={{
                 margin: "0 10px",
               }}

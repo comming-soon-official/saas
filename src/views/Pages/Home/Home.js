@@ -1,4 +1,7 @@
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faPersonWalkingDashedLineArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Facebook from "assets/svg/Facebook";
 import Instagram from "assets/svg/Instagram";
@@ -14,11 +17,22 @@ import "./style.css";
 import { auth } from "services";
 import ComponentModal from "components/Modal";
 import { Progress } from "antd";
+
 const Home = () => {
-  const [progress, setProgress] = useState(0);
+  const [allProgress, setAllProgress] = useState([
+    {
+      key: 1,
+      progressbar: 0,
+      completed: false,
+      showdataset: true,
+      btnloading: null,
+    },
+    { key: 2, progressbar: 0, completed: false },
+    { key: 3, progressbar: 0, completed: false },
+  ]);
+
   const [filenmae, setFilename] = useState("");
   const [loggineduser, setLoggineduser] = useState(null);
-
   var CurrentUser = auth.getCurrentUser();
 
   var authData = CurrentUser ? CurrentUser.get("authData") : null;
@@ -27,7 +41,11 @@ const Home = () => {
       console.log(auth.getCurrentUser());
       return;
     } else {
-      auth.ParseAnonymousUser();
+      // console.log("hey im anonuser");
+      auth.ParseAnonymousUser().then((res) => {
+        console.log(res);
+      });
+      console.log(auth.getCurrentUser());
     }
   }, []);
 
@@ -45,11 +63,25 @@ const Home = () => {
   }, []);
 
   const handleFileInputChange = (e) => {
-    setProgress(1);
+    setAllProgress((prev) => {
+      const newState = [...prev];
+      newState[0].showdataset = false;
+      newState[0].btnloading = true;
+      newState[0].progressbar = 1;
+
+      return newState;
+    });
     let filename = e.target.files[0];
     setFilename(filename.name);
-    auth.FileuploadDataset(filename).then((data) => {
-      setProgress(data);
+    auth.FileuploadDataset(filename, "dataset").then((data) => {
+      setAllProgress((prev) => {
+        const newState = [...prev];
+        newState[0].progressbar = data;
+        return newState;
+      });
+      if (data) {
+        console.log("hello");
+      }
     });
   };
   return (
@@ -77,11 +109,14 @@ const Home = () => {
               >
                 Testing Suite For AI/ML Products.{" "}
               </p>
-              {progress >= 1 && progress <= 2 ? (
+              {allProgress[0].btnloading ? (
                 <Button className="StartProjectbtn">
-                  Uploading Please Wait ...
+                  {allProgress[0].completed
+                    ? " Uploading Please Wait ..."
+                    : "Waiting For ModalFile to Upload"}
                 </Button>
-              ) : progress === 100 ? (
+              ) : allProgress[0].progressbar === 100 &&
+                allProgress[1].progressbar === 100 ? (
                 <ComponentModal
                   loggineduser={loggineduser}
                   className="modalswitchbutton"
@@ -104,9 +139,9 @@ const Home = () => {
               <div className="progressbarsection">
                 <p style={{ color: "green" }}>{filenmae}</p>
                 <br />
-                {progress ? (
+                {allProgress[0].progressbar ? (
                   <Progress
-                    percent={progress}
+                    percent={allProgress[0].progressbar}
                     format={(percent) => `${percent + "%"}`}
                   />
                 ) : null}
@@ -116,7 +151,10 @@ const Home = () => {
             </Col>
             <Col>
               <div className="uploads">
-                <Uploads setProgress={setProgress} progress={progress} />
+                <Uploads
+                  setAllProgress={setAllProgress}
+                  allProgress={allProgress}
+                />
               </div>
             </Col>
           </Row>

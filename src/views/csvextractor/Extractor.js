@@ -15,6 +15,7 @@ import { dashboard } from "services/paths";
 let Currentuser = auth.getCurrentUser();
 const date = new Date().toLocaleString("en-us", {
   dateStyle: "medium",
+  timeStyle: "short",
 });
 const Extractor = () => {
   const [tags, setTags] = useState([]);
@@ -49,7 +50,8 @@ const Extractor = () => {
     setCSVRow(e.target.value);
   };
 
-  const handleRun = async () => {
+  const handleRun = () => {
+    console.log(date);
     const project = {
       id: uuidV4(),
       topic: projectTopic,
@@ -59,8 +61,8 @@ const Extractor = () => {
       results: "",
       status: "",
     };
-
-    const res = await fetch("http://13.233.122.188:5001/tags", {
+    const url = "http://13.233.122.188:5001/tags";
+    const res = fetch(url, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -73,24 +75,58 @@ const Extractor = () => {
         userid: Currentuser.id,
         Row: CSVRow,
       }),
-    })
-      .then((res) => {
-        setTempobj((prev) => {
-          const newState = [...(prev || []), project];
-          Currentuser.set("Projects", newState);
-          Currentuser.save().then((res) => {
-            console.log(res);
-          });
-          return newState;
+    });
+
+    if (res.status === 200) {
+      setTempobj((prev) => {
+        const newState = [...(prev || []), project];
+        Currentuser.set("Projects", newState);
+        Currentuser.save().then((res) => {
+          console.log(res);
         });
-      })
-      .then(() => {
-        console.log("data updated successfully");
-        window.location = dashboard;
-      })
-      .catch((error) => {
-        console.log(error.message);
+        return newState;
       });
+      notification["success"]({
+        message: "Pipeline Started..!",
+        description: "We shall mail you the results after completion",
+        duration: 5,
+      });
+      setTimeout(() => {
+        window.location = dashboard;
+      }, 3000);
+    } else {
+      console.log("ok im");
+      notification["error"]({
+        message: "Error",
+        description: "Server Can't Reachable",
+        duration: 5,
+      });
+    }
+    //   .then((res) => {
+    //     console.log(res.status);
+    //     setTempobj((prev) => {
+    //       const newState = [...(prev || []), project];
+    //       Currentuser.set("Projects", newState);
+    //       Currentuser.save().then((res) => {
+    //         console.log(res);
+    //       });
+    //       return newState;
+    //     });
+    //   })
+    //   .then(() => {
+    //     window.location = dashboard;
+    //   })
+    //   .catch((error) => {
+    //     console.log("ok");
+
+    //     notification["error"]({
+    //       message: "Error",
+    //       description: "Server Can't Reachable",
+    //       duration: 5,
+    //     });
+    //     console.log(error.message);
+    //   });
+    // console.log(res);
   };
 
   return (
@@ -162,7 +198,9 @@ const Extractor = () => {
           </Form>
 
           <br />
-          <Button onClick={handleRun}>Run Pipeline</Button>
+          <Button className="runpipelinebtn" onClick={handleRun}>
+            Run Pipeline
+          </Button>
         </div>
       </div>
     </Container>

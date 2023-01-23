@@ -148,7 +148,7 @@ export function checkIfSuperAdmin() {
 
 export function setAdmin() {}
 
-export const FileuploadDataset = (file) => {
+export const FileuploadDataset = (file, dbname) => {
   let roundvalue = 0;
   let parseFile = new Parse.File(file.name, file);
   return parseFile
@@ -162,7 +162,7 @@ export const FileuploadDataset = (file) => {
       console.log(res);
       console.log(res._url);
 
-      getCurrentUser().set("dataset", res._url);
+      getCurrentUser().set(dbname, res._url);
       getCurrentUser().save();
       var newStore = new Parse.Object("File");
       newStore.set("File", parseFile);

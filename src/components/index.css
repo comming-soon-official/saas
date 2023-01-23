@@ -94,3 +94,15 @@ border-radius: 10px;
   height: 70px;
   margin: 20px;
 }
+.modalnxtbtn{
+  width: 81%;
+  margin-left: 8%;
+}
+.modaldonebtn{
+  width: 40%;
+  margin-left: 8%;
+}
+.modalfinishbtn{
+  width: 81%;
+  margin-left: 8%;
+}
