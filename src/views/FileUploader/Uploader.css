@@ -153,7 +153,15 @@ span {
 .uploadbox {
   height: 180px !important;
   width: 250px !important;
+  transition: 0.3s !important;
+  box-shadow: 4.0px 8.0px 8.0px rgba(139, 139, 139, 0.38);
+
   /* margin-left: 10px; */
+}
+.uploadbox:hover{
+
+  box-shadow: 4.0px 8.0px 8.0px hsl(0deg 0% 0% / 0.38);
+
 }
 .ant-upload-list-item-card-actions {
   display: none;

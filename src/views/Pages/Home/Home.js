@@ -3,12 +3,7 @@ import {
   faPersonWalkingDashedLineArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Facebook from "assets/svg/Facebook";
-import Instagram from "assets/svg/Instagram";
-import Linkdin from "assets/svg/Linkdin";
-import Twitter from "assets/svg/Twitter";
-import Youtube from "assets/svg/Youtube";
-import Gmail from "assets/svg/Gmail.js";
+
 import { MainNavbar } from "components";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
@@ -17,6 +12,7 @@ import "./style.css";
 import { auth } from "services";
 import ComponentModal from "components/Modal";
 import { Progress } from "antd";
+import Homefooter from "./Homefooter";
 
 const Home = () => {
   const [allProgress, setAllProgress] = useState([
@@ -86,8 +82,7 @@ const Home = () => {
                 style={{ marginBottom: 70 }}
                 src={require("assets/aiensuredbig.png")}
                 alt="textanalysisimage"
-                width={768}
-                height={175}
+                className="aiensuredpic"
               />
               <p
                 style={{ marginBottom: 70, marginLeft: 30 }}
@@ -243,49 +238,9 @@ const Home = () => {
           <br />
           <br />
           <br />
-          <Row className="homefooter">
-            <Row>
-              <Col>
-                <img src={require("assets/aiensured-white.png")} alt="" />
-                <p className="foopara">
-                  AiEnsured is complete testing suite for AI products.
-                </p>
-                <Col>
-                  <Instagram className="socialmediaicons" />
-                  <Linkdin className="socialmediaicons" />
-                  <Twitter className="socialmediaicons" />
-                  <Facebook className="socialmediaicons" />
-                  <Youtube className="socialmediaicons" />
-                </Col>
-              </Col>
-              <Col className="footag">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Nesciunt ad repudiandae ab eum quis ea sapiente voluptatibus,
-                  exercitationem maxime est in consectetur iure aliquam
-                  reprehenderit!
-                </p>
-                <Form className="newsletterbox">
-                  <Form.Label className="newsletterlabel">
-                    Subscribe for News Letter
-                  </Form.Label>
-                  <div style={{ display: "flex" }}>
-                    <Form.Control type="email" placeholder="Enter email" />
-                    <Button
-                      className="newsletterbtn"
-                      sm
-                      style={{ marginLeft: 5 }}
-                    >
-                      {" "}
-                      <Gmail className="newsletterlogo" />
-                    </Button>
-                  </div>
-                </Form>
-              </Col>
-            </Row>
-          </Row>
         </div>
       </Container>
+      <Homefooter />
     </div>
   );
 };

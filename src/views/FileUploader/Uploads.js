@@ -152,7 +152,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
           ) : null}
           <div>
             <Upload.Dragger
-              accept=".csv"
+              accept=".h5, .pkl"
               multiple={true}
               name="file"
               className="uploadbox"
@@ -203,7 +203,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
 
               <p>
                 {" "}
-                {allProgress[1].completed
+                {allProgress[2].completed
                   ? "(Click to Reupload Embedded file)"
                   : "Upload Embedded Support file (Optional)"}
               </p>

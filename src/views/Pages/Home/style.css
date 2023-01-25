@@ -6,6 +6,10 @@
 .uploads{
     margin-left: 120px;
 }
+.aiensuredpic{
+    width:768px;
+    height:175px;
+}
 .StartProjectbtn{
     position: relative;
     overflow: hidden;
@@ -46,11 +50,13 @@ text-align: center;
     justify-content: center;
     align-items: center;
 }
+
 .homefooter{
     background-color: #141629;
     color: white;
-    border-radius: 50px 50px 0px 0px ;
-    padding: 30px;
+    padding-left: 220px;
+    padding-right: 160px;
+    
 }
 
 .foopara{
@@ -120,6 +126,9 @@ text-align: center;
     padding-top: 20px;
     display: block;
     position: relative;
+    cursor:alias;
+
+
 }
 .startuploadtag>h1{
     color: #000000;
@@ -159,6 +168,7 @@ text-align: center;
 }
 .startuploadtag:hover{
         border-radius: 30px;
+        box-shadow: 4.0px 8.0px 8.0px rgba(24, 24, 24, 0.38);
 
 }
 
@@ -168,3 +178,14 @@ text-align: center;
     left: 5%;
     bottom: 10%;
 }
+@media screen and (max-width: 992px) {
+    .homefooter{
+        padding-left: 20px;
+        padding-right: 60px;
+        
+    }
+    .aiensuredpic{
+        width:450px;
+        height:auto;
+    }
+  }
