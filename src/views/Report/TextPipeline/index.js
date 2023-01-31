@@ -22,24 +22,43 @@ import {
   MainNavbar,
 } from "components";
 import { auth } from "services";
-var results_path = "data/text/";
 
 const Index = () => {
   const [paths, setPaths] = useState(null);
   const [choice, setChoice] = useState(0);
   const [data, setData] = useState(null);
   const api = auth.getCurrentUser().get("Projects");
+  const userTopicId =
+    auth.getCurrentUser().get("topic") + auth.getCurrentUser().id;
+  console.log(userTopicId);
+  var results_path = `https://saasproduct.s3.ap-south-1.amazonaws.com/${"Imuser"}/Results/`;
+
+  var results = api.map((value) => {
+    return (
+      <>
+        {value.results ? (
+          <p style={{ border: "1px solid black" }}>{value.results}</p>
+        ) : null}
+      </>
+    );
+  });
 
   const pickChoice = (choice) => {
+    console.log(choice);
     setChoice(--choice);
   };
 
   const setPickedData = () => {
-    console.log(api[choice].Topic);
-    var path = results_path + api[choice].Topic + "/json_metadata.json";
+    var path = results_path + api[choice].results + "/json_metadata.json";
+
     console.log(path);
     fetch(path)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status !== 200) {
+          console.log("hello");
+        }
+        return res.json();
+      })
       .then((data) => {
         setData(data);
         setChoice(choice);
@@ -53,13 +72,17 @@ const Index = () => {
 
   if (data == null) return <Loader />;
   var keys = Object.keys(data);
-  var path = results_path + api[choice].Topic + "/";
-  var results = results_path + "results.json";
+  var path = results_path + api[choice].results + "/";
 
+  // var results = api.map((value) => {
+  //   return value.Topic;
+  // });
+  // console.log(results);
   return (
     <Container fluid className="impnavbar">
       <MainNavbar />
       <Navigation data={keys} />
+      <h1>Hello</h1>
       <DatasetSelector choice={pickChoice} results={results} />
       {keys.includes("Data Diagnostic") ? (
         <DataPaths

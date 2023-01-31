@@ -7,6 +7,7 @@ const DatasetSelector = (props) => {
   const api = auth.getCurrentUser().get("Projects");
   const choiceSelect = (event) => {
     const { choice } = props;
+    console.log(choice);
     choice(event.target.attributes.getNamedItem("data-key").value);
   };
 
@@ -21,13 +22,17 @@ const DatasetSelector = (props) => {
           }}
         >
           <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            {selectedItem ? selectedItem : api[0].Topic.toUpperCase()}
+            {selectedItem ? selectedItem : api[0].results.toUpperCase()}
           </Dropdown.Toggle>
           <Dropdown.Menu onClick={choiceSelect}>
             {api.map((item, i) => (
-              <Dropdown.Item data-key={++i} key={i}>
-                {item.Topic.toUpperCase()}
-              </Dropdown.Item>
+              <>
+                {item.results ? (
+                  <Dropdown.Item data-key={++i} key={i}>
+                    {item.results}
+                  </Dropdown.Item>
+                ) : null}
+              </>
             ))}
           </Dropdown.Menu>
         </Dropdown>
