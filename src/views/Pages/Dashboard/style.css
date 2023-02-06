@@ -10,3 +10,15 @@
   top: 50%;
   left: 50%;
 }
+.completed{
+  color: green;
+}
+.waiting{
+  color: grey;
+}
+.pending{
+  color: yellow;
+}
+.error{
+  color: red;
+}

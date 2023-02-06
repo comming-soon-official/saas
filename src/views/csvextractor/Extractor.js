@@ -61,7 +61,7 @@ const Extractor = () => {
       results: "",
       status: "",
     };
-    const url = "http://13.233.122.188:5001/tags";
+    const url = "http://middleman.aiensured.com/tags";
     const res = fetch(url, {
       method: "POST",
       mode: "cors",
@@ -94,6 +94,13 @@ const Extractor = () => {
       setTimeout(() => {
         window.location = dashboard;
       }, 3000);
+    } else if (res.status === 500) {
+      console.log("server busy");
+      notification["error"]({
+        message: "Sorry to Inform,",
+        description: "The Server is busy now Try again after sometime",
+        duration: 5,
+      });
     } else {
       console.log("ok im");
       notification["error"]({

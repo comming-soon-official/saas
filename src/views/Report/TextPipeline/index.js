@@ -82,8 +82,9 @@ const Index = () => {
     <Container fluid className="impnavbar">
       <MainNavbar />
       <Navigation data={keys} />
-      <h1>Hello</h1>
       <DatasetSelector choice={pickChoice} results={results} />
+      <h3 className="border">Topic: {api[choice].topic}</h3>
+      <h3></h3>
       {keys.includes("Data Diagnostic") ? (
         <DataPaths
           title="Data Diagnostic"

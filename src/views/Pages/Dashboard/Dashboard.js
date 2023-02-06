@@ -22,37 +22,6 @@ const Dashboard = () => {
     setDatas(() => Curretuser.get("Projects"));
   }, [datas]);
 
-  // const [projectdata, setProjectData] = useState([
-  //   {
-  //     key: 1,
-  //     name: "jacob",
-  //     product: "Object Detection",
-  //     createdtime: "28 aug 22",
-  //     status: "completed",
-  //   },
-  //   {
-  //     key: 2,
-  //     name: "fine",
-  //     product: "photo",
-  //     createdtime: "10 aug 22",
-  //     status: "pending",
-  //   },
-  //   {
-  //     key: 3,
-  //     name: "ookie",
-  //     product: "Image",
-  //     createdtime: "02 sep 22",
-  //     status: "error",
-  //   },
-  //   {
-  //     key: 4,
-  //     name: "heydude",
-  //     product: "Video",
-  //     createdtime: "20 sep 22",
-  //     status: "completed",
-  //   },
-  // ]);
-
   const [infoprojectdata, setInfoProjectData] = useState([
     [
       {
@@ -165,25 +134,26 @@ const Dashboard = () => {
           <td>{val?.topic}</td>
           <td>{val?.date}</td>
           <td
-            style={{
-              color:
-                val?.status === "completed"
-                  ? "#32e322"
-                  : val?.status === "error"
-                  ? "#e32222"
-                  : val?.status === "pending"
-                  ? "#ebe534"
-                  : "#000",
-            }}
+            className={
+              val?.status === "completed"
+                ? "completed"
+                : val?.status === "error"
+                ? "error"
+                : val?.status === "pending"
+                ? "pending"
+                : "waiting"
+            }
           >
             {val?.status ? val.status : "waiting"}
           </td>
           <td>
-            {val?.status === "completed" ? (
+            {val?.results !== "" ? (
               <Button onClick={() => (window.location = report)} size="sm">
                 View Report
               </Button>
-            ) : null}
+            ) : (
+              "No Results"
+            )}
           </td>
         </tr>
       );
@@ -227,6 +197,7 @@ const Dashboard = () => {
                       <th>Project Name</th>
                       <th>Execution Date</th>
                       <th>Status</th>
+                      <th>Results</th>
                     </tr>
                   </thead>
                   <tbody>{projectTable()}</tbody>
