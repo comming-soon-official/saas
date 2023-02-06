@@ -18,7 +18,7 @@ const MainNavbar = ({ logout }) => {
     if (authData !== undefined && authData?.anonymous !== undefined) {
       setAnonuser(true);
     } else if (
-      authData ? Object.keys(authData?.anonymous).length === 0 : null
+      authData?.anonymous ? Object.keys(authData?.anonymous).length === 0 : null
     ) {
       console.log(authData);
       setAnonuser(true);
