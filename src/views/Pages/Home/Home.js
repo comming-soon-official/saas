@@ -27,6 +27,10 @@ const Home = () => {
     { key: 3, progressbar: 0, completed: false },
     { key: 4, progressbar: 0, completed: false },
   ]);
+  // Scroll Down
+  const [scrollDown, setScrollDown] = useState(true);
+  // Full page height
+  const homeHeight = document.documentElement.scrollHeight;
 
   const [filenmae, setFilename] = useState("");
   const [loggineduser, setLoggineduser] = useState(null);
@@ -58,19 +62,42 @@ const Home = () => {
       setLoggineduser(false);
     }
   }, []);
-  console.log(window.innerHeight + window.scrollY);
+
+  window.onscroll = function() {
+    if(window.scrollY > (homeHeight - window.innerHeight) ){
+      setScrollDown(false);
+    }
+    else{
+      setScrollDown(true);
+    }
+  };
+  const handleScroll = () => {
+    window.scrollTo({
+      top: window.innerHeight + window.scrollY,
+      behavior: "smooth",
+    });
+    console.log("Scrolling Down ", window.innerHeight + window.scrollY);
+  };
+
   return (
     <div>
       <MainNavbar />
       <br />
       <br />
       <Container>
-        <img
-          className="mousescroll"
-          src={require("assets/scroll-down.gif")}
-          alt=""
-          srcset=""
-        />
+        {
+          scrollDown && 
+          <img
+            className="mousescroll"
+            src={require("assets/scroll-down.gif")}
+            alt=""
+            srcset=""
+
+            style={{ width: 50, height: 50, cursor: "pointer", zIndex: 1000 }}
+
+            onClick={handleScroll}
+          />
+        }
 
         <div>
           <Row className="">
