@@ -153,7 +153,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
           <div>
             <Upload.Dragger
               // accept=".h5, .pkl"
-              accept=".csv"
+              accept=".h5,.pkl"
               multiple={true}
               name="file"
               className="uploadbox"
@@ -186,7 +186,6 @@ const Uploads = ({ setAllProgress, allProgress }) => {
           </div>
           <div>
             <Upload.Dragger
-              accept=".csv"
               multiple={true}
               name="file"
               className="uploadbox"

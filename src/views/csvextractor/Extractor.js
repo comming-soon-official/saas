@@ -23,6 +23,50 @@ const Extractor = () => {
   const [destination, setDestination] = useState("");
   const [tempobj, setTempobj] = useState(Currentuser.get("Projects"));
   const [CSVRow, setCSVRow] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const errorStyle = {
+    color: "red",
+    fontSize: "12px",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(validate());
+    setIsSubmit(true);
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      handleRun();
+      console.log("Form Submitted");
+    }
+  };
+
+  useEffect(() => {
+    console.log(errors);
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      console.log("Form is Valid");
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    isSubmit && setErrors(validate());
+  }, [target, destination, CSVRow]);
+
+  const validate = () => {
+    let errors = {};
+    if (target === "" || target === "Select Your Input Tag") {
+      errors.target = "Please Select Your Input Tag!";
+    }
+    if (destination === "" || destination === "Select Your Target Tag") {
+      errors.destination = "Please Select Your Target Tag!";
+    }
+    if (CSVRow === null || CSVRow === "") {
+      errors.CSVRow = "Please Input The Row ID or Row Text!";
+    }
+    return errors;
+  };
 
   const projectmodal = Currentuser.get("modal") ? Currentuser.get("modal") : "";
   const projectembedded = Currentuser.get("embedded")
@@ -159,6 +203,7 @@ const Extractor = () => {
                     );
                   })}
                 </Form.Select>
+                <Form.Text style={errorStyle}> {errors.target}</Form.Text>
                 <br />
                 <Form.Label>Select Target Tag</Form.Label>
                 <Form.Select onChange={handleDestinationSelect}>
@@ -173,6 +218,7 @@ const Extractor = () => {
                     );
                   })}
                 </Form.Select>
+                <Form.Text style={errorStyle}> {errors.destination}</Form.Text>
                 <br />
                 <Form>
                   <Tabs
@@ -199,13 +245,14 @@ const Extractor = () => {
                       />
                     </Tab>
                   </Tabs>
+                  <Form.Text style={errorStyle}> {errors.CSVRow}</Form.Text>
                 </Form>
               </div>
             </Form.Group>
           </Form>
 
           <br />
-          <Button className="runpipelinebtn" onClick={handleRun}>
+          <Button className="runpipelinebtn" onClick={handleSubmit}>
             Run Pipeline
           </Button>
         </div>
