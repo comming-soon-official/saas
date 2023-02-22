@@ -105,7 +105,7 @@ const Extractor = () => {
       results: "",
       status: "",
     };
-    const url = "http://middleman.aiensured.com/tags";
+    const url = "https://middleman.aiensured.com/tags";
     const res = fetch(url, {
       method: "POST",
       mode: "cors",
