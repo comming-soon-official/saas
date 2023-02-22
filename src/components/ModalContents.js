@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import { Form } from "react-bootstrap";
 import { Select, Form, Input } from "antd";
 import "./index.css";
 const { Option } = Select;
+
+const errStyle = {
+  color: "red",
+  fontSize: 9,
+  padding: 0,
+  margin: 0,
+  fontWeight: "bold",
+  fontStyle: "italic"
+}
 
 // export const Modalcontent1 = (props) => {
 //   const { catogery, setCatogery } = props;
@@ -39,14 +48,54 @@ export const ContactInfo = () => {
   );
 };
 export const Modalcontent2 = (props) => {
-  const { fullName, setFullName, email, setEmail, setPassowrd, password } =
-    props;
+  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const [nameTouched, setNameTouched] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const {
+    fullName,
+    setFullName,
+    email,
+    setEmail,
+    setPassowrd,
+    password,
+    nameError,
+    setNameError,
+    emailError,
+    setEmailError,
+    passwordError,
+    setPasswordError,
+  } = props;
   // const validate = Yup.object({
   //   fullName: Yup.string().required("Name is required"),
   //   email: Yup.string()
   //     .email("please enter valid email")
   //     .required("Email is Required"),
   // });
+
+  useEffect(() => {
+    if (fullName.length < 3) {
+      setNameError("Name must be 3 characters long!");
+    } else {
+      setNameError("");
+    }
+  }, [fullName]);
+
+  useEffect(() => {
+    if (!EMAIL_REGEX.test(email)) {
+      setEmailError("Please enter valid email!");
+    } else {
+      setEmailError("");
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password.length < 6) {
+      setPasswordError("Password must be 6 characters long!");
+    } else {
+      setPasswordError("");
+    }
+  }, [password]);
 
   return (
     <>
@@ -98,7 +147,9 @@ export const Modalcontent2 = (props) => {
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               placeholder="Eg:- Himal.B"
+              onBlur={() => setNameTouched(true)}
             />
+            {nameTouched && nameError != "" && <p style={errStyle}>{nameError}</p>}
           </Form.Item>
           <Form.Item
             className="username"
@@ -115,7 +166,9 @@ export const Modalcontent2 = (props) => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Eg:- himal.b@testaing.com"
+              onBlur={() => setEmailTouched(true)}
             />
+            {emailTouched && emailError != "" && <p style={errStyle}>{emailError}</p>}
           </Form.Item>
           <Form.Item
             className="username"
@@ -133,7 +186,11 @@ export const Modalcontent2 = (props) => {
               placeholder="input password"
               onChange={(event) => setPassowrd(event.target.value)}
               autoComplete="off"
+              onBlur={() => setPasswordTouched(true)}
             />
+            {passwordTouched && passwordError != "" && (
+              <p style={errStyle}>{passwordError}</p>
+            )}
           </Form.Item>
 
           {/* <Form.Group
@@ -191,10 +248,19 @@ export const Modalcontent2 = (props) => {
   );
 };
 export const Modalcontent3 = (props) => {
-  const { topic, setTopic } = props;
+  const [ topicTouched, setTopicTouched ] = useState(false);
+  const { topic, setTopic, topicError, setTopicError } = props;
   // const validate = Yup.object({
   //   topic: Yup.string().required("Title is required"),
   // });
+  useEffect(() => {
+    if (topic.length < 3) {
+      setTopicError("Topic must be atleast 3 characters long");
+    } else {
+      setTopicError("");
+    }
+  }, [topic]);
+
 
   return (
     <>
@@ -218,7 +284,9 @@ export const Modalcontent3 = (props) => {
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
               placeholder="Eg:- TextEvaluation"
+              onBlur={() => setTopicTouched(true)}
             />
+            {topicTouched && topicError != "" && <p style={errStyle}>{topicError}</p>}
           </Form.Item>
         </Form>
         {/* <Form>
