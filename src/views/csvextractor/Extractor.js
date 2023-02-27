@@ -146,6 +146,14 @@ const Extractor = () => {
         duration: 5,
       });
     } else {
+      setTempobj((prev) => {
+        const newState = [...(prev || []), project];
+        Currentuser.set("Projects", newState);
+        Currentuser.save().then((res) => {
+          console.log(res);
+        });
+        return newState;
+      });
       console.log("ok im");
       notification["error"]({
         message: "Error",

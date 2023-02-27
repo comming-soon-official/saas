@@ -24,6 +24,10 @@ const ComponentModal = ({ loggineduser }) => {
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("");
   const [password, setPassowrd] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [topicError, setTopicError] = useState("");
   let navigate = useNavigate();
   const userid = auth.getCurrentUser()?.id;
   // let RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
@@ -47,19 +51,39 @@ const ComponentModal = ({ loggineduser }) => {
           setFullName={setFullName}
           setPassowrd={setPassowrd}
           password={password}
+          nameError={nameError}
+          setNameError={setNameError}
+          emailError={emailError}
+          setEmailError={setEmailError}
+          passwordError={passwordError}
+          setPasswordError={setPasswordError}
         />
       ),
     },
     {
       title: "Project Name",
-      content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
+      content: (
+        <Modalcontent3
+          topic={topic}
+          setTopic={setTopic}
+          topicError={topicError}
+          setTopicError={setTopicError}
+        />
+      ),
     },
   ];
 
   const steps2 = [
     {
       title: "Project Name",
-      content: <Modalcontent3 topic={topic} setTopic={setTopic} />,
+      content: (
+        <Modalcontent3
+          topic={topic}
+          setTopic={setTopic}
+          topicError={topicError}
+          setTopicError={setTopicError}
+        />
+      ),
     },
   ];
 
@@ -205,7 +229,7 @@ const ComponentModal = ({ loggineduser }) => {
         onCancel={handleCancel}
         footer={null}
         destroyOnClose={true}
-        bodyStyle={!loggineduser ? { height: 550 } : { height: 450 }}
+        bodyStyle={!loggineduser ? { height: 580 } : { height: 450 }}
       >
         <Steps current={current}>
           {newstep.map((item) => (
@@ -224,6 +248,7 @@ const ComponentModal = ({ loggineduser }) => {
           </>
         ) : null}
         <div className="steps-action">
+          <br />
           {current < newstep.length - 1 && (
             <Button
               // disabled={disabled}

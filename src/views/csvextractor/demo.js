@@ -1,17 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Container, Form, Tabs, Tab } from "react-bootstrap";
+import { notification } from "antd";
 import Papa from "papaparse";
+import { v4 as uuidV4 } from "uuid";
 import { auth } from "services";
-import { useState } from "react";
+import { MainNavbar } from "components";
+import { dashboard } from "services/paths";
+import Parse from "../../services/parseService";
 import "./style.css";
-// import { MainNavbar } from "components";
-import { Container } from "react-bootstrap";
-import { Button, Form } from "react-bootstrap";
 
 const Extractor = () => {
   const [tags, setTags] = useState([]);
-  const [inputtagarray, setInputtagarray] = useState([]);
   const [target, setTarget] = useState("");
   const [destination, setDestination] = useState("");
+  const [tempobj, setTempobj] = useState(auth.getCurrentUser().get("Projects"));
+  const [CSVRow, setCSVRow] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const errorStyle = {
+    color: "red",
+    fontSize: "12px",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  };
+
+  const validate = () => {
+    let errors = {};
+    if (target === "" || target === "Select Your Input Tag") {
+      errors.target = "Please Select Your Input Tag!";
+    }
+    if (destination === "" || destination === "Select Your Target Tag") {
+      errors.destination = "Please Select Your Target Tag!";
+    }
+    if (CSVRow === null || CSVRow === "") {
+      errors.CSVRow = "Please Input The Row ID or Row Text!";
+    }
+    return errors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(validate());
+    setIsSubmit(true);
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      handleRun();
+      console.log("Form Submitted");
+    }
+  };
+
+  useEffect(() => {
+    console.log(errors);
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      console.log("Form is Valid");
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    isSubmit && setErrors(validate());
+  }, [target, destination, CSVRow]);
+
   useEffect(() => {
     Papa.parse(auth.getCurrentUser().get("dataset"), {
       download: true,
@@ -20,114 +68,136 @@ const Extractor = () => {
       },
     });
   }, []);
-  // console.log(tags);
-
-  var results = tags.filter(
-    (row) => !inputtagarray.some((value) => row.includes(value))
-  );
 
   const handleTargetSelect = (e) => {
     setTarget(e.target.value);
-    setInputtagarray([...inputtagarray, e.target.value]);
   };
 
   const handleDestinationSelect = (e) => {
     setDestination(e.target.value);
-    setInputtagarray([...inputtagarray, e.target.value]);
   };
+
+  const SelectRows = (e) => {
+    setCSVRow(e.target.value);
+  };
+
   const handleRun = () => {
-    console.log(target, destination);
+    const date = new Date().toLocaleString("en-us", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+    const project = {
+      id: uuidV4(),
+      topic: auth.getCurrentUser().get("topic") || "",
+      date,
+      results: "",
+      status: "",
+    };
+    const url = "http://middleman.aiensured.com/tags";
+    const res = fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        input_col: target,
+        target_col: destination,
+        userid: auth.getCurrentUser().id,
+        Row: CSVRow,
+      }),
+    });
+
+    if (res.status === 200) {
+      setTempobj((prev) => {
+        const newState = [...(prev || []), project];
+        Currentuser.set("Projects", newState);
+        Currentuser.save().then((res) => {
+          console.log(res);
+        });
+        return newState;
+      });
+    } else {
+      console.log("hello");
+    }
   };
-  // useEffect(() => {
-  //   let csvRows = ["1", "2", "3", "4", "5", "6"];
-  //   let searchTerms = ["1", "2", "3", "4"];
-  //   var results = tags.filter(
-  //     (row) => !inputtagarray.some((value) => row.includes(value))
-  //   );
-  //   console.log(results);
-  // }, [inputtagarray]);
+
   return (
-    <Container>
-      <div>
+    <>
+      {" "}
+      <Container>
+        <MainNavbar />
         <div className="tagbox">
           <h2>Tags</h2>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Select Target Tag</Form.Label>
-
+              <Form.Label>Select Input Tag</Form.Label>
               <div style={{ marginBottom: "8px" }}>
-                <Form.Select onChange={handleTargetSelect}>
-                  <option defaultValue={target}>
-                    {"Select Your Target Tag"}
-                  </option>
-                  {tags.map((value, index) => {
-                    return (
-                      <option key={index} value={value}>
-                        {value}
-                      </option>
-                    );
-                  })}
+                <Form.Select
+                  onChange={handleTargetSelect}
+                  defaultValue={target}
+                >
+                  <option disabled>Select Your Input Tag</option>
+                  {tags.map((value, index) => (
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
+                  ))}
                 </Form.Select>
-                <br />
-                <Form.Label>Select Destination Tag</Form.Label>
+                <Form.Text style={errorStyle}>{errors.target}</Form.Text>
+              </div>
 
-                <Form.Select onChange={handleDestinationSelect}>
-                  <option defaultValue={destination}>
-                    {"Select Your Target Tag"}
-                  </option>
-                  {tags.map((value, index) => {
-                    return (
-                      <option key={index} value={value}>
-                        {value}
-                      </option>
-                    );
-                  })}
+              <Form.Label>Select Target Tag</Form.Label>
+              <div style={{ marginBottom: "8px" }}>
+                <Form.Select
+                  onChange={handleDestinationSelect}
+                  defaultValue={destination}
+                >
+                  <option disabled>Select Your Target Tag</option>
+                  {tags.map((value, index) => (
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
+                  ))}
                 </Form.Select>
-                {/* <Form.Control
-                  type="email"
-                  placeholder="Enter Target and Destination Tags"
-                  value={inputtag}
-                  onChange={(e) => {
-                    setInputtag(e.target.value);
-                  }}
-                />
-                <Button onClick={handleClick}>add</Button> */}
+                <Form.Text style={errorStyle}>{errors.destination}</Form.Text>
               </div>
-              <div className="hello">
-                {inputtagarray
-                  ? inputtagarray.map((value, index) => {
-                      return (
-                        <span className="searchtag" key={index}>
-                          {value}
-                        </span>
-                      );
-                    })
-                  : null}
-              </div>
+
+              <Tabs
+                defaultActiveKey="id"
+                id="uncontrolled-tab-example"
+                className="mb-3"
+              >
+                <Tab eventKey="id" title="Row ID">
+                  <Form.Label>Enter Row ID</Form.Label>
+                  <Form.Control
+                    onChange={SelectRows}
+                    type="number"
+                    placeholder="Eg: 6"
+                    value={CSVRow}
+                  />
+                </Tab>
+                <Tab eventKey="row" title="Row Text">
+                  <Form.Label>Enter Row Text</Form.Label>
+                  <Form.Control
+                    onChange={SelectRows}
+                    type="text"
+                    placeholder="Eg: Gramite"
+                    value={CSVRow}
+                  />
+                </Tab>
+              </Tabs>
+              <Form.Text style={errorStyle}>{errors.CSVRow}</Form.Text>
             </Form.Group>
           </Form>
-          <div className="tagboxoutside">
-            {results.map((value, index) => {
-              return (
-                <span key={index} className="bodytag">
-                  {value}
-                </span>
-              );
-            })}
-            {/* {tags.map((value, index) => {
-              return (
-                <span className="bodytag" key={index}>
-                  {value} <img src="./1.png" alt="" />
-                </span>
-              );
-            })} */}
-          </div>
-          <br />
-          <Button onClick={handleRun}>Run Pipeline</Button>
+          <Button className="runpipelinebtn" onClick={handleSubmit}>
+            Run Pipeline
+          </Button>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 
-export default Extractor;
+export default CSV;

@@ -64,7 +64,7 @@ const Home = () => {
   }, []);
 
   window.onscroll = function () {
-    if (window.scrollY > homeHeight - window.innerHeight) {
+    if (window.scrollY > homeHeight - 1.2 * window.innerHeight) {
       setScrollDown(false);
     } else {
       setScrollDown(true);

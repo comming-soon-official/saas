@@ -12,13 +12,6 @@ import "./Uploader.css";
 import "../../App.scss";
 
 const Uploads = ({ setAllProgress, allProgress }) => {
-  var CurrentUser = auth.getCurrentUser();
-
-  const logout = () => {
-    Parse.User.logOut();
-    window.location = "/login";
-  };
-
   const onFileChangeDataset = (file, dbname) => {
     let roundvalue = 0;
     let parseFile = new Parse.File(file.name, file);
@@ -62,55 +55,8 @@ const Uploads = ({ setAllProgress, allProgress }) => {
       .catch((error) => {
         console.log(error);
       });
+  };
 
-    // auth.FileuploadDataset(file, "dataset").then((data) => {
-    //   setAllProgress((prev) => {
-    //     const newState = [...prev];
-    //     newState[0].progressbar = data;
-    //     return newState;
-    //   });
-    //   if (data === 100) {
-    //     setAllProgress((prev) => {
-    //       const newState = [...prev];
-    //       newState[0].completed = true;
-    //       return newState;
-    //     });
-    //   }
-    // });
-  };
-  const onFileChangeModal = (file) => {
-    auth.FileuploadDataset(file, "modal").then((data) => {
-      setAllProgress((prev) => {
-        const newState = [...prev];
-        newState[1].progressbar = data;
-        return newState;
-      });
-      if (data === 100) {
-        setAllProgress((prev) => {
-          const newState = [...prev];
-          newState[1].completed = true;
-          newState[0].btnloading = false;
-          return newState;
-        });
-      }
-    });
-  };
-  const onFileChangeEmbedded = (file) => {
-    auth.FileuploadDataset(file, "embedded").then((data) => {
-      setAllProgress((prev) => {
-        const newState = [...prev];
-        newState[2].progressbar = data;
-        return newState;
-      });
-      if (data === 100) {
-        setAllProgress((prev) => {
-          const newState = [...prev];
-          newState[0].completed = true;
-          return newState;
-        });
-      }
-    });
-  };
   return (
     <div>
       <div className="draggerbox">

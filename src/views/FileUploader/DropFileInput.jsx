@@ -1,93 +1,111 @@
-import React, { useRef, useState } from "react";
-import PropTypes from "prop-types";
-
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Row, Stack } from "react-bootstrap";
+import { Progress, Upload } from "antd";
+import Parse from "../../services/parseService";
+import { auth } from "../../services";
 import "./Uploader.css";
+import "../../App.scss";
 
-import { ImageConfig } from "../../config/ImageConfig";
-import uploadImg from "../../assets/cloud-upload-regular-240.png";
-
-const DropFileInput = (props) => {
-  const wrapperRef = useRef(null);
-
-  const [fileList, setFileList] = useState([]);
-
-  const onDragEnter = () => wrapperRef.current.classList.add("dragover");
-
-  const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
-
-  const onDrop = () => wrapperRef.current.classList.remove("dragover");
-
-  const onFileDrop = (e) => {
-    const newFile = e.target.files[0];
-    if (newFile) {
-      const updatedList = [...fileList, newFile];
-      setFileList(updatedList);
-      props.onFileChange(updatedList);
+const Uploads = ({ setAllProgress, allProgress }) => {
+  const onFileChangeDataset = async (file, dbname) => {
+    let roundvalue = 0;
+    const parseFile = new Parse.File(file.name, file);
+    try {
+      const res = await parseFile.save({
+        progress: (value) => {
+          roundvalue = Math.round(value * 100);
+          setAllProgress((prev) => {
+            const newState = [...prev];
+            if (dbname === "dataset") {
+              newState[0].progressbar = roundvalue;
+              newState[0].completed = true;
+            } else if (dbname === "modal") {
+              newState[1].progressbar = roundvalue;
+              newState[1].completed = true;
+            } else if (dbname === "embedded") {
+              newState[2].progressbar = roundvalue;
+              newState[2].completed = true;
+            }
+            return newState;
+          });
+        },
+      });
+      console.log(res._url);
+      const currentUser = auth.getCurrentUser();
+      currentUser.set(dbname, res._url);
+      await currentUser.save();
+      const newStore = new Parse.Object("File");
+      newStore.set("File", parseFile);
+      await newStore.save();
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const fileRemove = (file) => {
-    const updatedList = [...fileList];
-    updatedList.splice(fileList.indexOf(file), 1);
-    setFileList(updatedList);
-    props.onFileChange(updatedList);
-  };
+  const renderUploadBox = (
+    dbname,
+    completedText,
+    placeholderText,
+    iconUrl,
+    acceptedTypes
+  ) =>
+    allProgress[dbname].showdataset && (
+      <div>
+        <Upload.Dragger
+          accept={acceptedTypes}
+          multiple={true}
+          name="file"
+          className="uploadbox"
+          showUploadList={true}
+          maxCount={1}
+          beforeUpload={(file) => onFileChangeDataset(file, dbname)}
+        >
+          <img src={iconUrl} alt={dbname} width={100} height={100} />
+          <p>
+            {allProgress[dbname].completed
+              ? `(Click to Reupload ${completedText})`
+              : placeholderText}
+          </p>
+        </Upload.Dragger>
+
+        {allProgress[dbname].progressbar && (
+          <Progress
+            className="progressbarinuploads"
+            percent={allProgress[dbname].progressbar}
+            format={(percent) => `${percent}%`}
+          />
+        )}
+      </div>
+    );
 
   return (
-    <>
-      <div
-        ref={wrapperRef}
-        className="drop-file-input"
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-      >
-        <div className="drop-file-input__label">
-          <img src={uploadImg} alt="" />
-          <p>Drag & Drop your files here</p>
-        </div>
-        <input
-          type="file"
-          // accept=".csv, .txt, .mkv"
-          value=""
-          onChange={onFileDrop}
-        />
+    <div>
+      <div className="draggerbox">
+        <Stack gap={3}>
+          {renderUploadBox(
+            "dataset",
+            "Dataset",
+            "Upload your Dataset",
+            "https://cdn.iconscout.com/icon/free/png-256/csv-1832607-1552247.png",
+            ".csv"
+          )}
+          {renderUploadBox(
+            "modal",
+            "Modal",
+            "Upload Your Modal",
+            "https://cdn.iconscout.com/icon/free/png-256/ai-66-433729.png",
+            ".h5, .pkl"
+          )}
+          {renderUploadBox(
+            "embedded",
+            "Embedded file",
+            "Upload Embedded Support file (Optional)",
+            "https://cdn.iconscout.com/icon/free/png-256/embedded-2082810-1750241.png",
+            ""
+          )}
+        </Stack>
       </div>
-      {fileList.length > 0 ? (
-        <div className="drop-file-preview">
-          <p className="drop-file-preview__title">Ready to upload</p>
-          {fileList.map((item, index) => (
-            <div key={index} className="drop-file-preview__item">
-              <img
-                src={
-                  ImageConfig[item.type.split("/")[1]] || ImageConfig["default"]
-                }
-                alt=""
-              />
-              <div className="drop-file-preview__item__info">
-                <span className="contents">{item.name}</span>
-                {item.size < 1000000 ? (
-                  <span className="contents">{item.size / 1000}KB</span>
-                ) : (
-                  <span className="contents">{item.size / 1000000}MB</span>
-                )}
-              </div>
-              <span
-                className="drop-file-preview__item__del"
-                onClick={() => fileRemove(item)}
-              >
-                x
-              </span>
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </>
+    </div>
   );
 };
-
-DropFileInput.propTypes = {
-  onFileChange: PropTypes.func,
-};
-
-export default DropFileInput;
+export default Uploads;
