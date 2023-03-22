@@ -96,7 +96,7 @@ const Home = () => {
         )}
 
         <div>
-          <Row className="">
+          <Row>
             {/* <h1 className="contentheading">
               Hello Guys Upload Some And Lets Play with AI
             </h1> */}

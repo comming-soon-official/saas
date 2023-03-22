@@ -60,9 +60,9 @@ const Uploads = ({ setAllProgress, allProgress }) => {
   return (
     <div>
       <div className="draggerbox">
-        <Stack gap={3}>
+        <>
           {allProgress[0].showdataset ? (
-            <div>
+            <div className="uploads">
               <Upload.Dragger
                 accept=".csv"
                 multiple={true}
@@ -96,7 +96,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
               ) : null}
             </div>
           ) : null}
-          <div>
+          <div className="uploads">
             <Upload.Dragger
               // accept=".h5, .pkl"
               accept=".h5,.pkl"
@@ -130,7 +130,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
               />
             ) : null}
           </div>
-          <div>
+          <div className="uploads">
             <Upload.Dragger
               multiple={true}
               name="file"
@@ -163,7 +163,7 @@ const Uploads = ({ setAllProgress, allProgress }) => {
             ) : null}
           </div>
           <div></div>
-        </Stack>
+        </>
       </div>
     </div>
   );

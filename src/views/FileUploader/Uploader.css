@@ -149,8 +149,15 @@ span {
   width: 62%;
   margin-right: -30px;
 }
-
+.draggerbox{
+  margin-left: 120px;
+  
+}
+.uploads{
+  margin: 20px;
+}
 .uploadbox {
+  /* margin: 20px; */
   height: 180px !important;
   width: 250px !important;
   transition: 0.3s !important;
@@ -166,21 +173,13 @@ span {
 .ant-upload-list-item-card-actions {
   display: none;
 }
-/* @media only screen and (max-width: 720px) {
-  .filecomponentbox {
-
-    flex-wrap: wrap;
-
+@media only screen and (max-width: 1400px) {
+  .draggerbox{
+    margin-left: 0px;
+    display: flex;
+    
   }
-  .fileuploadbox {
-    height: 200px;
-    width: 200px;
-    margin: 20px;
-  }
-  .progressposition {
-    margin-left: 60px !important;
-  }
-} */
+}
 
 .section1{
   justify-content: center;

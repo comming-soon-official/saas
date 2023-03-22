@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Row, Col, Alert } from "react-bootstrap";
 import { notification } from "antd";
 import { Formik, Form } from "formik";
@@ -6,11 +6,11 @@ import SaasLogo from "../../assets/saasaiensured.png";
 import { TextField } from "./TextField";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import "../../App.scss";
 import { Link } from "react-router-dom";
 import Parse from "../../services/parseService";
-import { dashboard, signup } from "services/paths";
-
+import { dashboard, signup, login, forget } from "services/paths";
+import "./style.css";
+import { useState } from "react";
 export const Signup = () => {
   let navigate = useNavigate();
 
@@ -28,9 +28,9 @@ export const Signup = () => {
       .required("Confirm password is required"),
   });
   return (
-    <div className="row" style={{ display: "flex" }}>
-      <Col md={6} className="my-auto">
-        <img w={100} className="img-fluid" src={SaasLogo} alt="logo" />
+    <div className="centerrow">
+      <Col className="my-auto">
+        <img className="logo" src={SaasLogo} alt="logo" />
       </Col>
       <div className="col-md-5">
         <Formik
@@ -121,11 +121,11 @@ export const Login = () => {
     password: Yup.string().required("Password is required"),
   });
   return (
-    <div className="row" style={{ display: "flex" }}>
-      <Col md={7} className="my-auto">
-        <img w={100} className="img-fluid" src={SaasLogo} alt="" />
+    <div className="centerrow">
+      <Col>
+        <img className="logo" src={SaasLogo} alt="" />
       </Col>
-      <div className="col-md-5">
+      <Col>
         <Formik
           initialValues={{
             email: "",
@@ -155,9 +155,6 @@ export const Login = () => {
         >
           {(formik) => (
             <div>
-              <br />
-              <br />
-              <br />
               <h1 className="my-4 font-weight-bold .display-4">Login</h1>
               <hr />
               <Form>
@@ -179,19 +176,114 @@ export const Login = () => {
                 <div>
                   <br />
                   <label className="myLinks">
-                    <Link to={signup}>
-                      Don't have an account? Register Here
-                    </Link>
+                    <Row>
+                      <Col>
+                        <Link to={signup}>
+                          Don't have an account? Register Here
+                        </Link>
+                      </Col>
+                      <Col>
+                        <Link to={forget}>Fotget Password?</Link>
+                      </Col>
+                    </Row>
                   </label>
                 </div>
-                {/* {errorMessage ? (
-                  <Alert variant="danger">{errorMessage}</Alert>
-                ) : null} */}
               </Form>
             </div>
           )}
         </Formik>
-      </div>
+      </Col>
+    </div>
+  );
+};
+export const Forget = () => {
+  const [count, setCount] = useState(0);
+
+  const validate = Yup.object({
+    email: Yup.string().email("please enter valid email").required("Required"),
+  });
+  let intervalRef = useRef();
+
+  const countDown = () => {
+    setCount((prevCount) => prevCount - 1);
+  };
+
+  useEffect(() => {
+    if (count > 0) {
+      intervalRef.current = setInterval(countDown, 1000);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [count]);
+  return (
+    <div className="centerrow">
+      <Col>
+        <img className="logo" src={SaasLogo} alt="" />
+      </Col>
+      <Col>
+        <Formik
+          initialValues={{
+            email: "",
+          }}
+          validationSchema={validate}
+          onSubmit={(values) => {
+            Parse.User.requestPasswordReset(values.email)
+              .then((user) => {
+                setCount(30);
+                notification["success"]({
+                  message: "Link Sent",
+                  description: `Reset sent sucessfully to your email`,
+                  duration: 10,
+                });
+              })
+              .catch((error) => {
+                setCount(30);
+
+                notification["error"]({
+                  message: "Login Error",
+                  description: error.message,
+                  duration: 5,
+                });
+              });
+          }}
+        >
+          {(formik) => (
+            <div>
+              <h1 className="my-4 font-weight-bold .display-4">
+                Forget Password
+              </h1>
+              <hr />
+              <Form>
+                <TextField
+                  placeholder="Eg:- himal.b@testaing.com"
+                  label="Email"
+                  name="email"
+                  type="email"
+                />
+                {count ? (
+                  <div>
+                    <a style={{ color: "gray" }}>{`resend in ${count}s`}</a>
+                  </div>
+                ) : null}
+                <br />
+
+                <Button
+                  className="myButton"
+                  type="submit"
+                  disabled={count === 0 ? false : true}
+                >
+                  Click to Reset
+                </Button>
+                <div>
+                  <br />
+                  <label className="myLinks">
+                    <Link to={login}>Wanna Login? Click Here.</Link>
+                  </label>
+                </div>
+              </Form>
+            </div>
+          )}
+        </Formik>
+      </Col>
     </div>
   );
 };
