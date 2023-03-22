@@ -231,7 +231,7 @@ export const Forget = () => {
                 setCount(30);
                 notification["success"]({
                   message: "Link Sent",
-                  description: `Reset sent sucessfully to your email`,
+                  description: `Link sent sucessfully to your email`,
                   duration: 10,
                 });
               })
